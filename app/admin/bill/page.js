@@ -142,7 +142,7 @@ export default function Home() {
         支出: cells[4].innerText == "支出" ? cells[5].innerText : 0,
         收入: cells[4].innerText == "收入" ? cells[5].innerText : 0,
         // 金額: cells[5].innerText,
-        發票: cells[5].innerText
+        發票: cells[6].innerText
       });
     });
 

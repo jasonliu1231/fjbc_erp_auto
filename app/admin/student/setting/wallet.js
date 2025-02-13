@@ -13,6 +13,7 @@ export default function Home({ student_id, setInfo }) {
   const [totalPoint, setTotalPoint] = useState(0);
   const [offset, setOffset] = useState(0);
   const [prizeOffset, setPrizeOffset] = useState(0);
+  const [invoiceOffset, setInvoiceOffset] = useState(0);
   const [createPointReason, setCreatePointReason] = useState("");
   const [state, setState] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -20,6 +21,7 @@ export default function Home({ student_id, setInfo }) {
   const [prizeList, setPrizeList] = useState([]);
   const [prizeLogList, setPrizeLogList] = useState([]);
   const [selectPrizeList, setSelectPrizeList] = useState([]);
+  const [invoiceList, setInvoiceList] = useState([]);
 
   async function getTicket() {
     const config = {
@@ -264,6 +266,30 @@ export default function Home({ student_id, setInfo }) {
     }
   }
 
+  async function getInvoice() {
+    const config = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
+        "Content-Type": "application/json"
+      }
+    };
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/student/invoice/log?student_id=${student_id}&offset=${invoiceOffset}`, config);
+    const res = await response.json();
+    if (response.ok) {
+      setInvoiceList(res);
+    } else {
+      const msg = error(response.status, res);
+      setInfo({
+        show: true,
+        success: false,
+        msg: "錯誤" + msg
+      });
+    }
+  }
+
   useEffect(() => {
     getPointLog();
   }, [offset]);
@@ -271,6 +297,10 @@ export default function Home({ student_id, setInfo }) {
   useEffect(() => {
     getPrizeLog();
   }, [prizeOffset]);
+
+  useEffect(() => {
+    getInvoice();
+  }, [invoiceOffset]);
 
   useEffect(() => {
     if (student_id != 0) {
@@ -569,85 +599,75 @@ export default function Home({ student_id, setInfo }) {
                 </div>
               </div>
             </div>
-            <div className="col-span-1 row-span-2 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl">
+            <div className="col-span-1 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl">
               <div className="px-4 py-6">
-                <span className="isolate inline-flex rounded-md shadow-sm mt-2">
-                  <button
-                    onClick={() => {
-                      setState(1);
-                    }}
-                    type="button"
-                    className={`${
-                      state == 1 ? "ring-blue-300" : "ring-gray-300"
-                    } mx-1 relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-2 ring-inset`}
-                  >
-                    獎券
-                  </button>
-                  <button
-                    onClick={() => {
-                      setState(2);
-                    }}
-                    type="button"
-                    className={`${
-                      state == 2 ? "ring-blue-300" : "ring-gray-300"
-                    } mx-1 relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-2 ring-inset`}
-                  >
-                    訂金
-                  </button>
-                </span>
-                {state == 1 ? (
-                  <div className="overflow-auto mt-2">
-                    <ul
-                      role="list"
-                      className="divide-y divide-gray-200"
-                    >
-                      {couponList.length > 0 &&
-                        couponList.map((item) => (
-                          <li
-                            key={item.id}
-                            className={`${(item.reason || item.invoice_id) && "bg-gray-300 opacity-25"} py-4`}
-                          >
-                            <div className="grid grid-cols-12 items-center">
-                              <div className="col-span-2">
-                                <div>{new Date(item.created_at).toLocaleDateString()}</div>
-                                {/* <div>{new Date(item.created_at).toLocaleTimeString()}</div> */}
-                              </div>
-                              <div className="col-span-4 text-blue-600">{item.tutoring.tutoring_name}</div>
-                              <div className="col-span-3 text-center text-gray-600">{item.coupon_name}</div>
-                              <div className="col-span-1 text-right text-green-600">${item.coupon}</div>
-                              <div className="col-span-2 text-center">{item.invoice_id ? (item.invoice.charge_date ? new Date(item.invoice.charge_date).toLocaleDateString() : "使用未收費") : ""}</div>
-                            </div>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                ) : state == 2 ? (
-                  <div className="overflow-auto mt-2">
-                    <ul
-                      role="list"
-                      className="divide-y divide-gray-200"
-                    >
-                      {depositList.length > 0 &&
-                        depositList.map((item) => (
-                          <li
-                            key={item.id}
-                            className={`${(item.reason || item.invoice_id) && "bg-gray-300 opacity-50"} p-2`}
-                          >
-                            <div className="grid grid-cols-12 items-center">
-                              <div className="col-span-2">
-                                <div>{new Date(item.created_at).toLocaleDateString()}</div>
-                                <div>{new Date(item.created_at).toLocaleTimeString()}</div>
-                              </div>
-                              <div className="col-span-4 text-blue-600">{item.tutoring.tutoring_name}</div>
-                              <div className="col-span-3 text-center text-gray-600">訂金</div>
-                              <div className="col-span-1 text-right text-green-600">${item.deposit}</div>
-                              <div className="col-span-2 text-center">{item.invoice_id ? (item.invoice.charge_date ? new Date(item.invoice.charge_date).toLocaleDateString() : "使用未收費") : ""}</div>
-                            </div>
-                          </li>
-                        ))}
-                    </ul>
-                  </div>
-                ) : null}
+                <div>繳費紀錄</div>
+                <table className="min-w-full divide-y divide-gray-300">
+                  <thead>
+                    <tr className="bg-green-200">
+                      <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      >
+                        單位
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      >
+                        學年
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      >
+                        月份
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      >
+                        總金額
+                      </th>
+                      <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      >
+                        繳費時間
+                      </th>
+                      {/* <th
+                        scope="col"
+                        className="text-left text-sm font-semibold text-gray-900"
+                      ></th> */}
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {invoiceList.map((item) => (
+                      <tr key={item.point_id}>
+                        <td className="whitespace-nowrap text-sm font-medium text-gray-900">
+                          <div>{item.tutoring_id}</div>
+                        </td>
+                        <td className="whitespace-nowrap text-sm text-gray-500">
+                          <div>{item.school_year}</div>
+                        </td>
+                        <td className="whitespace-nowrap text-sm text-gray-500">
+                          <div>
+                            {item.start_month}-{item.end_month}
+                          </div>
+                        </td>
+                        <td className="whitespace-nowrap text-sm text-red-500">
+                          <div>{item.amount || 0}</div>
+                        </td>
+                        <td className="whitespace-nowrap text-sm text-gray-500">
+                          <div>{item.charge_date}</div>
+                        </td>
+                        {/* <td className="whitespace-nowrap text-sm text-red-500">
+                          <div className="cursor-pointer hover:text-red-200"></div>
+                        </td> */}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
             <div className="col-span-1 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl">
@@ -759,6 +779,87 @@ export default function Home({ student_id, setInfo }) {
                     </button>
                   </span>
                 </div>
+              </div>
+            </div>
+            <div className="col-span-1 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl">
+              <div className="px-4 py-6">
+                <span className="isolate inline-flex rounded-md shadow-sm mt-2">
+                  <button
+                    onClick={() => {
+                      setState(1);
+                    }}
+                    type="button"
+                    className={`${
+                      state == 1 ? "ring-blue-300" : "ring-gray-300"
+                    } mx-1 relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-2 ring-inset`}
+                  >
+                    獎券
+                  </button>
+                  <button
+                    onClick={() => {
+                      setState(2);
+                    }}
+                    type="button"
+                    className={`${
+                      state == 2 ? "ring-blue-300" : "ring-gray-300"
+                    } mx-1 relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-2 ring-inset`}
+                  >
+                    訂金
+                  </button>
+                </span>
+                {state == 1 ? (
+                  <div className="overflow-auto mt-2">
+                    <ul
+                      role="list"
+                      className="divide-y divide-gray-200"
+                    >
+                      {couponList.length > 0 &&
+                        couponList.map((item) => (
+                          <li
+                            key={item.id}
+                            className={`${(item.reason || item.invoice_id) && "bg-gray-300 opacity-25"} py-4`}
+                          >
+                            <div className="grid grid-cols-12 items-center">
+                              <div className="col-span-2">
+                                <div>{new Date(item.created_at).toLocaleDateString()}</div>
+                                {/* <div>{new Date(item.created_at).toLocaleTimeString()}</div> */}
+                              </div>
+                              <div className="col-span-4 text-blue-600">{item.tutoring.tutoring_name}</div>
+                              <div className="col-span-3 text-center text-gray-600">{item.coupon_name}</div>
+                              <div className="col-span-1 text-right text-green-600">${item.coupon}</div>
+                              <div className="col-span-2 text-center">{item.invoice_id ? (item.invoice.charge_date ? new Date(item.invoice.charge_date).toLocaleDateString() : "使用未收費") : ""}</div>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : state == 2 ? (
+                  <div className="overflow-auto mt-2">
+                    <ul
+                      role="list"
+                      className="divide-y divide-gray-200"
+                    >
+                      {depositList.length > 0 &&
+                        depositList.map((item) => (
+                          <li
+                            key={item.id}
+                            className={`${(item.reason || item.invoice_id) && "bg-gray-300 opacity-50"} p-2`}
+                          >
+                            <div className="grid grid-cols-12 items-center">
+                              <div className="col-span-2">
+                                <div>{new Date(item.created_at).toLocaleDateString()}</div>
+                                <div>{new Date(item.created_at).toLocaleTimeString()}</div>
+                              </div>
+                              <div className="col-span-4 text-blue-600">{item.tutoring.tutoring_name}</div>
+                              <div className="col-span-3 text-center text-gray-600">訂金</div>
+                              <div className="col-span-1 text-right text-green-600">${item.deposit}</div>
+                              <div className="col-span-2 text-center">{item.invoice_id ? (item.invoice.charge_date ? new Date(item.invoice.charge_date).toLocaleDateString() : "使用未收費") : ""}</div>
+                            </div>
+                          </li>
+                        ))}
+                    </ul>
+                  </div>
+                ) : null}
               </div>
             </div>
           </div>
