@@ -568,7 +568,7 @@ export default function Home() {
                         onChange={(event) => setQuery(event.target.value)}
                         value={query}
                         type="text"
-                        placeholder="發票、內容"
+                        placeholder="發票、品相敘述"
                         className="px-3 py-2 w-full block rounded-md border-0 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
                       />
                     </div>
@@ -609,12 +609,12 @@ export default function Home() {
                     </div>
 
                     <div className="border-t-4 border-red-400 mt-5">
-                      <h1 className="text-xl py-2 text-blue-600">品項查詢</h1>
+                      <h1 className="text-xl py-2 text-blue-600"> 商品查詢</h1>
                       <input
                         onChange={(event) => setDetailSelected(event.target.value)}
                         value={detailSelected}
                         type="text"
-                        placeholder="品項名稱"
+                        placeholder="商品名稱"
                         className="px-3 py-2 w-full block rounded-md border-0 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
                       />
                       <button
