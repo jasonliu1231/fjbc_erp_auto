@@ -49,12 +49,13 @@ export default function Home() {
     const config = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        user_id: localStorage.getItem("user_id")
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(sendData.current)
     };
-    const response = await fetch(`/api/purchase`, config);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/purchase`, config);
     const res = await response.json();
     if (response.ok) {
       setInfo({
@@ -75,7 +76,7 @@ export default function Home() {
   }
 
   async function submit() {
-    if (!sendData.current.tutoringid) {
+    if (!sendData.current.tutoring_id) {
       setInfo({
         show: true,
         success: false,
@@ -83,7 +84,7 @@ export default function Home() {
       });
       return;
     }
-    if (!sendData.current.className) {
+    if (!sendData.current.class_name) {
       setInfo({
         show: true,
         success: false,
@@ -127,19 +128,8 @@ export default function Home() {
       }
     });
 
-    sendData.current.products = products;
+    sendData.current.productList = products;
     send();
-  }
-
-  function setProducts(val, i) {
-    const list = productList.map((origin, index) => {
-      if (i == index) {
-        return val;
-      } else {
-        return origin;
-      }
-    });
-    setProductsList(list);
   }
 
   return (
@@ -168,7 +158,7 @@ export default function Home() {
             </label>
             <select
               onChange={(event) => {
-                sendData.current.tutoringid = event.target.value;
+                sendData.current.tutoring_id = event.target.value;
               }}
               className="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
             >
@@ -191,7 +181,7 @@ export default function Home() {
             <div>
               <input
                 onChange={(event) => {
-                  sendData.current.className = event.target.value;
+                  sendData.current.class_name = event.target.value;
                 }}
                 placeholder="Please enter the class name."
                 type="text"
