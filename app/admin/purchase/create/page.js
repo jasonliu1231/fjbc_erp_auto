@@ -46,6 +46,7 @@ export default function Home() {
         success: true,
         msg: "申請完成!"
       });
+      window.location.href = "/admin/purchase";
     } else {
       const msg = error(response.status, res);
       setInfo({
