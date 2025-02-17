@@ -28,23 +28,6 @@ export default function Home() {
   const sendData = useRef({});
   const [productList, setProductsList] = useState([def]);
 
-  async function sendAlert(message) {
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        type: [1],
-        title: "採購單初審",
-        message: message
-      })
-    };
-    // 不需要看結果，失敗就算了
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/notification/type`, config);
-    window.location.href = "/admin/purchase";
-  }
-
   async function send() {
     const config = {
       method: "POST",
@@ -63,8 +46,6 @@ export default function Home() {
         success: true,
         msg: "申請完成!"
       });
-
-      sendAlert(`${sendData.current.className} 申請採購！`);
     } else {
       const msg = error(response.status, res);
       setInfo({
