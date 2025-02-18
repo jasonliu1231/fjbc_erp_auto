@@ -111,22 +111,6 @@ export default function Example({ setInfo }) {
     setLogin(true);
   }
 
-  async function LineAlert() {
-    data.payment_method = settingData.payment_method;
-    const config = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    const response = await fetch(`/api/depositalert`, config);
-    const res = await response.json();
-    if (response.ok) {
-      window.location.href = `/admin/payment/receipt?id=${res.id}&type=2`;
-      console.log(res.msg);
-    }
-  }
-
   async function submit(key) {
     const config = {
       method: "POST",
@@ -145,9 +129,7 @@ export default function Example({ setInfo }) {
       creator_id: 0
     });
     if (response.ok) {
-      if (state.current == 1) {
-        LineAlert();
-      } else if (state.current == 2) {
+      if (state.current == 2) {
         getCouponList();
       }
     } else {

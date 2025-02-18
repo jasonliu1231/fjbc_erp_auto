@@ -214,7 +214,7 @@ export default function Home() {
         clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id })
+      body: JSON.stringify({ bill_id: id })
     };
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/bill`, config);
     const res = await response.json();
