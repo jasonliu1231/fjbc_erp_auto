@@ -192,19 +192,21 @@ export default function Example({ setInfo }) {
     return invoiceData;
   }
 
-  async function LineAlert(item) {
-    const data = dataTidy(item);
+  async function notification(invoice_id, isFirst) {
     const config = {
-      method: "POST",
+      method: "PATCH",
       headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
+      }
     };
-    const response = await fetch(`/api/linealert`, config);
-    const res = await response.json();
+    const url = `${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/tutoring/student/invoice/notification?invoice_id=${invoice_id}&first=${isFirst}`;
+    const response = await fetch(url, config);
     if (response.ok) {
-      console.log(res.msg);
+      alert("發送完成！");
+    } else {
+      alert("發送失敗！");
     }
   }
 
@@ -763,7 +765,7 @@ export default function Example({ setInfo }) {
                       className={`${!item.handler ? "opacity-15 cursor-not-allowed" : "cursor-pointer"} flex hover:text-purple-600`}
                       onClick={() => {
                         if (item.handler) {
-                          LineAlert(item);
+                          notification(item.id, false);
                         }
                       }}
                     >

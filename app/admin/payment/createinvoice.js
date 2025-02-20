@@ -76,7 +76,7 @@ export default function Example({ setInfo }) {
     const response = await fetch(url, config);
     const res = await response.json();
     if (response.ok) {
-      window.location.href = `/admin/payment/invoice?id=${res.id}`;
+      window.open(`/admin/payment/invoice?id=${res.id}`, "_blank", "noopener,noreferrer");
     } else {
       const msg = error(response.status, res);
       setInfo({

@@ -263,27 +263,6 @@ export default function Example({ setInfo }) {
     }
   }
 
-  async function sendExpo() {
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        schedule_id: schedule.current.id,
-        schedule_date: schedule.current.course_date,
-        schedule_name: schedule.current.course_name,
-        c_name: select.c_name,
-        e_name: select.e_name,
-        leave_end_time: state.leave_end_time,
-        leave_start_time: state.leave_start_time,
-        leave_reason: state.leave_reason
-      })
-    };
-    // 發出去就好不管他有沒有成功！
-    await fetch(`/api/leave`, config);
-  }
-
   async function setStatus() {
     if (state.leave_type != 1) {
       if (!state.leave_reason) {
@@ -312,11 +291,6 @@ export default function Example({ setInfo }) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/tutoring/course_schedule_student/${select.id}/update`, config);
     const res = await response.json();
     if (response.ok) {
-      // 如果是請假發推播給老師
-      if (state.leave_type != 1) {
-        sendExpo();
-      }
-
       setState(def_state);
       getStudent(res.schedule_id);
       setInfo({

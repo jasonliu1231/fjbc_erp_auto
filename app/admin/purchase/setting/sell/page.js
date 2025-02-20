@@ -129,36 +129,6 @@ export default function Home() {
         success: true,
         msg: "操作完成！"
       });
-      sendAlert();
-      await notificationType({
-        type: 1,
-        title: "採購單複審",
-        message: `編號：${purchase.id}，採購單已報價請複審！`
-      });
-    } else {
-      const msg = error(response.status, res);
-      setInfo({
-        show: true,
-        success: false,
-        msg: "錯誤" + msg
-      });
-    }
-  }
-
-  async function sendAlert() {
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        message: `\n有一筆採購單已報價\n請複審！`
-      })
-    };
-    const response = await fetch(`/api/purchaselinealert`, config);
-    const res = await response.json();
-    if (response.ok) {
-      window.location.href = `/admin/purchase/setting/second?id=${purchase.id}`;
     } else {
       const msg = error(response.status, res);
       setInfo({

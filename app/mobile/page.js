@@ -6,13 +6,36 @@ import { QRCodeSVG } from "qrcode.react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { notificationAll, notificationPerson, notificationType } from "../utils";
 
+const mobileInfo = [
+  {
+    mobile_name: "FJBC",
+    mobile_type: 1
+  },
+  {
+    mobile_name: "FJBC 財務版",
+    mobile_type: 2
+  },
+  {
+    mobile_name: "FJBC 教師版",
+    mobile_type: 3
+  },
+  {
+    mobile_name: "FJBC 行政版",
+    mobile_type: 4
+  }
+];
+
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [openSend, setOpenSend] = useState(false);
   const [list, setList] = useState([]);
   const [search, setSearch] = useState("");
   const [QRCode, setQRCode] = useState("");
   const [type, setType] = useState(1);
   const [offset, setOffset] = useState(0);
+  const [sendType, setSendType] = useState([]);
+  const [sendTitle, setSendTitle] = useState("");
+  const [sendMessage, setSendMessage] = useState("");
 
   async function getList() {
     const config = {
@@ -81,7 +104,7 @@ export default function Home() {
     }
   }
 
-  async function sendTest() {
+  async function sendNotification() {
     const config = {
       method: "POST",
       headers: {
@@ -90,13 +113,15 @@ export default function Home() {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        type: [3],
-        user_id: [1],
-        title: "測試推播",
-        message: "TEST"
+        type: sendType,
+        title: sendTitle,
+        message: sendMessage
       })
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/notification/person`, config);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/notification/type`, config);
+    if (response.ok) {
+      alert("發送完成！");
+    }
   }
 
   useEffect(() => {
@@ -129,6 +154,80 @@ export default function Home() {
                   QRCode
                 </DialogTitle>
                 <div className="mt-3 flex items-center justify-center">{QRCode != "" && <QRCodeSVG value={QRCode} />}</div>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
+      <Dialog
+        open={openSend}
+        onClose={setOpenSend}
+        className="relative z-10"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-xl sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            >
+              <div>
+                <DialogTitle
+                  as="h3"
+                  className="text-center font-semibold leading-6 text-gray-900"
+                >
+                  群組發送
+                </DialogTitle>
+                <div className="flex mt-2">
+                  {mobileInfo.map((item) => (
+                    <div
+                      className={`${sendType.some((info) => info == item.mobile_type) ? "bg-blue-300" : ""} flex-1 ring-2 rounded-md mx-2 px-2 py-1 cursor-pointer`}
+                      onClick={() => {
+                        if (sendType.some((info) => info == item.mobile_type)) {
+                          setSendType(sendType.filter((info) => info != item.mobile_type));
+                        } else {
+                          setSendType([...sendType, item.mobile_type]);
+                        }
+                      }}
+                      key={item.mobile_type}
+                    >
+                      {item.mobile_name}
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-2">
+                  <div className="text-blue-400 text-lg">標題</div>
+                  <input
+                    className="ring-1 w-full p-2"
+                    value={sendTitle}
+                    onChange={(e) => {
+                      setSendTitle(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="mt-2">
+                  <div className="text-blue-400 text-lg">內容</div>
+                  <textarea
+                    rows={4}
+                    className="ring-1 w-full p-2"
+                    value={sendMessage}
+                    onChange={(e) => {
+                      setSendMessage(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="mt-2 flex justify-center">
+                  <button
+                    onClick={sendNotification}
+                    className="ring-1 ring-green-400 px-2 py-1 text-green-700"
+                  >
+                    送出
+                  </button>
+                </div>
               </div>
             </DialogPanel>
           </div>
@@ -230,27 +329,16 @@ export default function Home() {
               </button>
             </div>
 
-            {/* <div>
+            <div>
               <button
                 className="mx-2 border-2 border-pink-300 px-2 py-1 bg-pink-600 rounded-md text-white"
                 onClick={() => {
-                  sendTest();
+                  setOpenSend(true);
                 }}
               >
                 群組發送
               </button>
-              <button
-                className="border-2 border-pink-300 px-2 py-1 bg-pink-600 rounded-md text-white"
-                onClick={() => {
-                  notificationAll({
-                    title: "這是一則群發測試推播訊息！",
-                    message: "全體發送測試！"
-                  });
-                }}
-              >
-                全體發送
-              </button>
-            </div> */}
+            </div>
           </div>
           <div className="mt-8 flow-root">
             <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
