@@ -21,7 +21,7 @@ const def_create = {
   quantity: 0,
   amount: 0,
   money: 0,
-  tutoringid: 0,
+  tutoringid: 4,
   remark: "",
   usage: 3,
   product_group_id: 0,

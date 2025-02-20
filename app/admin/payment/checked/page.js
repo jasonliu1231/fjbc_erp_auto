@@ -133,22 +133,6 @@ export default function Home() {
     setData(invoiceData);
   }
 
-  async function LineAlert() {
-    data.payment_method = settingData.payment_method;
-    const config = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    };
-    const response = await fetch(`/api/linealert`, config);
-    const res = await response.json();
-    if (response.ok) {
-      console.log(res.msg);
-    }
-  }
-
   async function updateInvoice() {
     if (data.amount < 0) {
       settingData.refund = true;
@@ -168,8 +152,8 @@ export default function Home() {
     const response = await fetch(url, config);
     const res = await response.json();
     if (response.ok) {
-      window.location.href = `/admin/payment/receipt?type=1&id=${settingData.invoice_id}`;
-      LineAlert();
+      window.open(`/admin/payment/receipt?type=1&id=${settingData.invoice_id}`, "_blank", "noopener,noreferrer");
+      window.location.href = `/admin/payment`;
     } else {
       const msg = error(response.status, res);
       setSettingData({

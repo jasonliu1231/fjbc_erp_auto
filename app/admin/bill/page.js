@@ -44,7 +44,6 @@ const def_search = {
 };
 
 const def_update = {
-  entity: {},
   detail: []
 };
 
@@ -184,7 +183,7 @@ export default function Home() {
         clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ id })
+      body: JSON.stringify({ bill_id: id })
     };
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/bill`, config);
     const res = await response.json();
@@ -239,7 +238,7 @@ export default function Home() {
   async function updateItem() {
     const detail = updateData.detail.filter((i) => i.content != "");
     updateData.detail = detail;
-    updateData.entity.amount = detail.reduce((amount, item) => amount + item.money, 0);
+    updateData.amount = detail.reduce((amount, item) => amount + item.money, 0);
     if (updateData.amount <= 0) {
       alert("明細總金額錯誤！");
       return;
@@ -296,6 +295,7 @@ export default function Home() {
       return;
     }
     createData.amount = detail_amount;
+    createData.detail = detail;
 
     const config = {
       method: "POST",
@@ -304,7 +304,7 @@ export default function Home() {
         clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ data: createData, detail: detail })
+      body: JSON.stringify(createData)
     };
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/bill`, config);
     const res = await response.json();
@@ -348,7 +348,7 @@ export default function Home() {
         setDetailDialog(true);
       } else if (type == 2) {
         setUpdateData({
-          entity: bill,
+          ...bill,
           detail: res
         });
         setUpdateDialog(true);
@@ -1121,13 +1121,10 @@ export default function Home() {
                     onChange={(e) => {
                       setUpdateData({
                         ...updateData,
-                        entity: {
-                          ...updateData.entity,
-                          tutoring_id: Number(e.target.value)
-                        }
+                        tutoring_id: Number(e.target.value)
                       });
                     }}
-                    value={updateData.entity.tutoring_id}
+                    value={updateData.tutoring_id}
                     className="p-2 block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
                   >
                     <option>請選擇單位</option>
@@ -1147,13 +1144,10 @@ export default function Home() {
                     onChange={(e) => {
                       setUpdateData({
                         ...updateData,
-                        entity: {
-                          ...updateData.entity,
-                          date: e.target.value
-                        }
+                        date: e.target.value
                       });
                     }}
-                    value={updateData.entity.date}
+                    value={updateData.date}
                     type="date"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                   />
@@ -1164,13 +1158,10 @@ export default function Home() {
                     onChange={(e) => {
                       setUpdateData({
                         ...updateData,
-                        entity: {
-                          ...updateData.entity,
-                          content: e.target.value
-                        }
+                        content: e.target.value
                       });
                     }}
-                    value={updateData.entity.content}
+                    value={updateData.content}
                     type="text"
                     placeholder="抬頭"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
@@ -1182,13 +1173,10 @@ export default function Home() {
                     onChange={(e) => {
                       setUpdateData({
                         ...updateData,
-                        entity: {
-                          ...updateData.entity,
-                          invoice: e.target.value
-                        }
+                        invoice: e.target.value
                       });
                     }}
-                    value={updateData.entity.invoice}
+                    value={updateData.invoice}
                     type="text"
                     placeholder="發票號碼"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
@@ -1209,13 +1197,10 @@ export default function Home() {
                     onChange={(e) => {
                       setUpdateData({
                         ...updateData,
-                        entity: {
-                          ...updateData.entity,
-                          remark: e.target.value
-                        }
+                        remark: e.target.value
                       });
                     }}
-                    value={updateData.entity.remark}
+                    value={updateData.remark}
                     type="text"
                     placeholder="備註"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
@@ -1237,7 +1222,7 @@ export default function Home() {
                   新增明細
                 </button>
               </span>
-              <div className="mt-3">
+              <div className="mt-3 overflow-scroll">
                 <table
                   id="myTable"
                   className="min-w-full divide-y divide-gray-300"
@@ -1267,6 +1252,12 @@ export default function Home() {
                         className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
                       >
                         小計
+                      </th>
+                      <th
+                        scope="col"
+                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        備註
                       </th>
                     </tr>
                   </thead>
@@ -1359,6 +1350,28 @@ export default function Home() {
                               }}
                               value={item.money}
                               type="number"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                            />
+                          </td>
+                          <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
+                            <input
+                              onChange={(e) => {
+                                setUpdateData({
+                                  ...updateData,
+                                  detail: updateData.detail.map((i, ii) => {
+                                    if (index == ii) {
+                                      return {
+                                        ...i,
+                                        remark: e.target.value
+                                      };
+                                    } else {
+                                      return i;
+                                    }
+                                  })
+                                });
+                              }}
+                              value={item.remark}
+                              type="text"
                               className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                             />
                           </td>
