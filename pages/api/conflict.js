@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     if (teacher.length == 0) {
       data.teacher = [];
     } else {
-      sql = `SELECT tcs.course_name, tcs.classroom_name, tcs.course_date, tcs.start_time, tcs.end_time, u.first_name, u.nick_name 
+      sql = `SELECT tcs.course_name, tcs.classroom_name, tcs.course_date, tcs.start_time, tcs.end_time, u.first_name c_name, u.nick_name 
             FROM tutoring_course_schedule tcs
             INNER JOIN tutoring_course_schedule_teacher tcst ON tcs.id = tcst.schedule_id
             INNER JOIN teacher t ON t.id = tcst.teacher_id
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
     if (student.length == 0) {
       data.student = [];
     } else {
-      sql = `SELECT tcs.course_name, tcs.classroom_name, tcs.course_date, tcs.start_time, tcs.end_time, u.first_name, u.nick_name 
+      sql = `SELECT tcs.course_name, tcs.classroom_name, tcs.course_date, tcs.start_time, tcs.end_time, u.first_name c_name, u.nick_name 
             FROM tutoring_course_schedule tcs
             INNER JOIN tutoring_course_schedule_student tcss ON tcs.id = tcss.schedule_id
             INNER JOIN student s ON s.id = tcss.student_id

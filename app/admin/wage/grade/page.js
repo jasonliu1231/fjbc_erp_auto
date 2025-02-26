@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ChevronDownIcon } from "@heroicons/react/16/solid";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/16/solid";
 import Alert from "../../alert";
 import { error } from "../../../utils";
 import * as XLSX from "xlsx";
 
 const y = new Date().getFullYear() - 1911;
-const year = [y - 2, y - 1, y, y + 1, y + 2];
+const year = [y - 4, y - 3, y - 2, y - 1, y];
 
 const semester = [
   {
@@ -79,12 +80,61 @@ const exam_type = [
   }
 ];
 
+const grade_type = [
+  {
+    id: 5,
+    name: "小一"
+  },
+  {
+    id: 6,
+    name: "小二"
+  },
+  {
+    id: 7,
+    name: "小三"
+  },
+  {
+    id: 8,
+    name: "小四"
+  },
+  {
+    id: 9,
+    name: "小五"
+  },
+  {
+    id: 10,
+    name: "小六"
+  },
+  {
+    id: 11,
+    name: "國一"
+  },
+  {
+    id: 12,
+    name: "國二"
+  },
+  {
+    id: 13,
+    name: "國三"
+  },
+  {
+    id: 14,
+    name: "高一"
+  },
+  {
+    id: 15,
+    name: "高二"
+  },
+  {
+    id: 16,
+    name: "高三"
+  }
+];
+
 const def_search = {
   school_year: 113,
   semester: 1,
-  course_no: "B1",
-  exam_type: 1,
-  grade: 5
+  course_no: "B1"
 };
 
 export default function Home() {
@@ -96,8 +146,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState([]);
   const [list, setList] = useState([]);
+  const [examType, setExamType] = useState([]);
+  const [gradeType, setGradeType] = useState([]);
   const [search, setSearch] = useState(def_search);
-  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(true);
 
   function getTableData() {
     const table = document.getElementById("myTable");
@@ -112,9 +164,11 @@ export default function Home() {
         英文名: cells[1].innerText,
         學校: cells[2].innerText,
         年級: cells[3].innerText,
-        成績: cells[4].innerText,
-        班排: cells[5].innerText,
-        校排: cells[6].innerText
+        考試名稱: cells[4].innerText,
+        考試範圍: cells[5].innerText,
+        成績: cells[6].innerText,
+        班排: cells[7].innerText,
+        校排: cells[8].innerText
       });
     });
 
@@ -150,12 +204,17 @@ export default function Home() {
 
   async function searchExam() {
     const config = {
-      method: "GET",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
-      }
+      },
+      body: JSON.stringify({
+        ...search,
+        exam_type: examType.length == 0 ? null : examType,
+        grade: gradeType.length == 0 ? null : gradeType
+      })
     };
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/wage/statements/student/grade?school_year=${search.school_year}&semester=${search.semester}&course_no=${search.course_no}&exam_type=${search.exam_type}&grade=${search.grade}`,
@@ -164,6 +223,7 @@ export default function Home() {
     const res = await response.json();
     if (response.ok) {
       setList(res);
+      setOpen(false);
     } else {
       const msg = error(response.status, res);
       setInfo({
@@ -218,155 +278,258 @@ export default function Home() {
         info={info}
         setInfo={setInfo}
       />
+      <Dialog
+        open={open}
+        onClose={setOpen}
+        className="relative z-10"
+      >
+        <div className="fixed inset-0" />
+
+        <div className="fixed inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10 sm:pl-16">
+              <DialogPanel
+                transition
+                className="pointer-events-auto w-screen max-w-2xl transform transition duration-500 ease-in-out data-[closed]:translate-x-full sm:duration-700"
+              >
+                <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                  <div className="px-4 sm:px-6">
+                    <div className="flex items-start justify-between">
+                      <DialogTitle className="text-base font-semibold text-gray-900">查詢選單</DialogTitle>
+                      <div className="ml-3 flex h-7 items-center">
+                        <button
+                          type="button"
+                          onClick={() => setOpen(false)}
+                          className="relative rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        >
+                          <span className="absolute -inset-2.5" />
+                          <span className="sr-only">Close panel</span>
+                          <XMarkIcon
+                            aria-hidden="true"
+                            className="size-6"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="relative mt-6 flex-1 px-4 sm:px-6">
+                    <div className="items-end">
+                      <div>
+                        <label className="block text-sm/6 font-medium text-gray-900">學年度</label>
+                        <div className="grid grid-cols-1">
+                          <select
+                            value={search.school_year}
+                            onChange={(e) => {
+                              setSearch({
+                                ...search,
+                                school_year: Number(e.target.value)
+                              });
+                            }}
+                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
+                          >
+                            {year.map((schoolYear, index) => (
+                              <option
+                                key={index}
+                                value={schoolYear}
+                              >
+                                {schoolYear}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDownIcon
+                            aria-hidden="true"
+                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm/6 font-medium text-gray-900">學期</label>
+                        <div className="grid grid-cols-1">
+                          <select
+                            value={search.semester}
+                            onChange={(e) => {
+                              setSearch({
+                                ...search,
+                                semester: Number(e.target.value)
+                              });
+                            }}
+                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
+                          >
+                            {semester.map((semester, index) => (
+                              <option
+                                key={index}
+                                value={semester.id}
+                              >
+                                {semester.name}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDownIcon
+                            aria-hidden="true"
+                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm/6 font-medium text-gray-900">科目</label>
+                        <div className="grid grid-cols-1">
+                          <select
+                            value={search.course_no}
+                            onChange={(e) => {
+                              setSearch({
+                                ...search,
+                                course_no: e.target.value
+                              });
+                            }}
+                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
+                          >
+                            {course.map((course, index) => (
+                              <option
+                                key={index}
+                                value={course.id}
+                              >
+                                {course.name}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDownIcon
+                            aria-hidden="true"
+                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm/6 font-medium text-gray-900">類別</label>
+                        <div className="grid grid-cols-4">
+                          {exam_type.map((type, index) => (
+                            <div key={index}>
+                              <input
+                                id={"exam" + type.id}
+                                type="checkbox"
+                                className="mx-2"
+                                checked={examType.some((id) => id == type.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setExamType([...examType, Number(type.id)]);
+                                  } else {
+                                    setExamType(examType.filter((id) => id != type.id));
+                                  }
+                                }}
+                              />
+                              <label
+                                className="cursor-pointer"
+                                htmlFor={"exam" + type.id}
+                              >
+                                {type.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* <div className="grid grid-cols-1">
+                          <select
+                            value={search.exam_type}
+                            onChange={(e) => {
+                              setSearch({
+                                ...search,
+                                exam_type: e.target.value
+                              });
+                            }}
+                            className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
+                          >
+                            {exam_type.map((type, index) => (
+                              <option
+                                key={index}
+                                value={type.id}
+                              >
+                                {type.name}
+                              </option>
+                            ))}
+                          </select>
+                          <ChevronDownIcon
+                            aria-hidden="true"
+                            className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
+                          />
+                        </div> */}
+                      </div>
+                      <div className="">
+                        <label className="block text-sm/6 font-medium text-gray-900">年級</label>
+                        <div className="grid grid-cols-4">
+                          {grade_type.map((type, index) => (
+                            <div key={index}>
+                              <input
+                                id={"grade" + type.id}
+                                type="checkbox"
+                                className="mx-2"
+                                checked={gradeType.some((id) => id == type.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setGradeType([...gradeType, Number(type.id)]);
+                                  } else {
+                                    setGradeType(gradeType.filter((id) => id != type.id));
+                                  }
+                                }}
+                              />
+                              <label
+                                className="cursor-pointer"
+                                htmlFor={"grade" + type.id}
+                              >
+                                {type.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                        {/* <select
+                          onChange={(e) => {
+                            setSearch({ ...search, grade: e.target.value });
+                          }}
+                          className="p-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
+                        >
+                          <option value="5">小一</option>
+                          <option value="6">小二</option>
+                          <option value="7">小三</option>
+                          <option value="8">小四</option>
+                          <option value="9">小五</option>
+                          <option value="10">小六</option>
+                          <option value="11">國一</option>
+                          <option value="12">國二</option>
+                          <option value="13">國三</option>
+                          <option value="14">高一</option>
+                          <option value="15">高二</option>
+                          <option value="16">高三</option>
+                        </select> */}
+                      </div>
+                      <div className="flex justify-center mt-12">
+                        <button
+                          className="mx-1 text-blue-600 border-2 border-blue-400 bg-blue-100 px-2 py-1 rounded-md"
+                          onClick={searchExam}
+                        >
+                          查詢
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </DialogPanel>
+            </div>
+          </div>
+        </div>
+      </Dialog>
       <div className="container mx-auto">
         <div className="mt-4">
           <div className="flex">
             <div className="flex-1 text-xl font-semibold text-gray-900">學生資料表</div>
-
-            <ExportToExcel />
-          </div>
-          <div className="flex items-end">
-            <div>
-              <label className="block text-sm/6 font-medium text-gray-900">學年度</label>
-              <div className="grid grid-cols-1">
-                <select
-                  value={search.school_year}
-                  onChange={(e) => {
-                    setSearch({
-                      ...search,
-                      school_year: Number(e.target.value)
-                    });
-                  }}
-                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
-                >
-                  {year.map((schoolYear, index) => (
-                    <option
-                      key={index}
-                      value={schoolYear}
-                    >
-                      {schoolYear}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm/6 font-medium text-gray-900">學期</label>
-              <div className="grid grid-cols-1">
-                <select
-                  value={search.semester}
-                  onChange={(e) => {
-                    setSearch({
-                      ...search,
-                      semester: Number(e.target.value)
-                    });
-                  }}
-                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
-                >
-                  {semester.map((semester, index) => (
-                    <option
-                      key={index}
-                      value={semester.id}
-                    >
-                      {semester.name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm/6 font-medium text-gray-900">科目</label>
-              <div className="grid grid-cols-1">
-                <select
-                  value={search.course_no}
-                  onChange={(e) => {
-                    setSearch({
-                      ...search,
-                      course_no: e.target.value
-                    });
-                  }}
-                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
-                >
-                  {course.map((course, index) => (
-                    <option
-                      key={index}
-                      value={course.id}
-                    >
-                      {course.name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                />
-              </div>
-            </div>
-            <div>
-              <label className="block text-sm/6 font-medium text-gray-900">類別</label>
-              <div className="grid grid-cols-1">
-                <select
-                  value={search.exam_type}
-                  onChange={(e) => {
-                    setSearch({
-                      ...search,
-                      exam_type: e.target.value
-                    });
-                  }}
-                  className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300"
-                >
-                  {exam_type.map((type, index) => (
-                    <option
-                      key={index}
-                      value={type.id}
-                    >
-                      {type.name}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDownIcon
-                  aria-hidden="true"
-                  className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
-                />
-              </div>
-            </div>
-            <div className="">
-              <label className="block text-sm/6 font-medium text-gray-900">年級</label>
-              <select
-                onChange={(e) => {
-                  setSearch({ ...search, grade: e.target.value });
-                }}
-                className="p-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
-              >
-                <option value="5">小一</option>
-                <option value="6">小二</option>
-                <option value="7">小三</option>
-                <option value="8">小四</option>
-                <option value="9">小五</option>
-                <option value="10">小六</option>
-                <option value="11">國一</option>
-                <option value="12">國二</option>
-                <option value="13">國三</option>
-                <option value="14">高一</option>
-                <option value="15">高二</option>
-                <option value="16">高三</option>
-              </select>
-            </div>
             <button
               className="mx-1 text-blue-600 border-2 border-blue-400 bg-blue-100 px-2 py-1 rounded-md"
-              onClick={searchExam}
+              onClick={() => {
+                setOpen(true);
+              }}
             >
-              查詢
+              查詢介面
             </button>
+            <ExportToExcel />
           </div>
+
           <div className="mt-4 flow-root">
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full py-2 align-middle h-80vh">
@@ -404,6 +567,18 @@ export default function Home() {
                         scope="col"
                         className="whitespace-nowrap p-2 text-center text-sm font-semibold text-gray-900"
                       >
+                        考試名稱
+                      </th>
+                      <th
+                        scope="col"
+                        className="whitespace-nowrap p-2 text-center text-sm font-semibold text-gray-900"
+                      >
+                        考試範圍
+                      </th>
+                      <th
+                        scope="col"
+                        className="whitespace-nowrap p-2 text-center text-sm font-semibold text-gray-900"
+                      >
                         成績
                       </th>
                       <th
@@ -421,18 +596,20 @@ export default function Home() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
-                    {list.map((item) => {
+                    {list.map((item, index) => {
                       const parent = item.parent_list;
                       const invoice = item.invoice_data_list;
                       return (
                         <tr
-                          key={item.student_id}
+                          key={index}
                           className={`divide-x divide-gray-200 hover:bg-blue-100`}
                         >
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.first_name}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.nick_name}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.school_name}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.grade_name}</td>
+                          <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.exam_name}</td>
+                          <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.exam_scope}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.score}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.class_rank}</td>
                           <td className="whitespace-nowrap p-2 text-sm text-gray-500">{item.school_rank}</td>
