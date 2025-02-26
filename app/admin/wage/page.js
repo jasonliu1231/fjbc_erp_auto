@@ -106,6 +106,12 @@ export default function Home() {
             >
               學生資料表
             </a>
+            <a
+              href="/admin/wage/grade"
+              className="col-span-1 font-semibold rounded-lg bg-white px-8 py-4 text-center hover:bg-pink-200"
+            >
+              學生成績表
+            </a>
           </div>
         </div>
       </div>

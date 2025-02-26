@@ -76,11 +76,11 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                     <div className="text-lg font-semibold">今日內容</div>
                     <div className="grid grid-cols-2 px-8">
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">課程</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400">{content.progress}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.progress}</pre>
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">作業</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400">{content.homework}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.homework}</pre>
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">考試提醒</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400">{content.next_quiz}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.next_quiz}</pre>
                     </div>
                   </div>
                   <div className="mt-4">
