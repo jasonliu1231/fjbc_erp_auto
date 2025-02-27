@@ -581,7 +581,7 @@ export default function Example() {
           </Popover>
           <Popover>
             <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-              財務
+              財務/報表
               <ChevronDownIcon
                 aria-hidden="true"
                 className="h-5 w-5 flex-none text-gray-400"

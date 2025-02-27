@@ -134,7 +134,7 @@ const grade_type = [
 const def_search = {
   school_year: 113,
   semester: 1,
-  course_no: "B1"
+  grade: 10
 };
 
 export default function Home() {
@@ -148,6 +148,7 @@ export default function Home() {
   const [list, setList] = useState([]);
   const [examType, setExamType] = useState([]);
   const [gradeType, setGradeType] = useState([]);
+  const [courseType, setCourseType] = useState([]);
   const [search, setSearch] = useState(def_search);
   const [open, setOpen] = useState(true);
 
@@ -213,7 +214,8 @@ export default function Home() {
       body: JSON.stringify({
         ...search,
         exam_type: examType.length == 0 ? null : examType,
-        grade: gradeType.length == 0 ? null : gradeType
+        course_no: courseType.length == 0 ? null : courseType
+        // grade: gradeType.length == 0 ? null : gradeType
       })
     };
     const response = await fetch(
@@ -370,9 +372,83 @@ export default function Home() {
                           />
                         </div>
                       </div>
+                      <div className="">
+                        <label className="block text-sm/6 font-medium text-gray-900">年級</label>
+                        {/* <div className="grid grid-cols-4">
+                          {grade_type.map((type, index) => (
+                            <div key={index}>
+                              <input
+                                id={"grade" + type.id}
+                                type="checkbox"
+                                className="mx-2"
+                                checked={gradeType.some((id) => id == type.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setGradeType([...gradeType, Number(type.id)]);
+                                  } else {
+                                    setGradeType(gradeType.filter((id) => id != type.id));
+                                  }
+                                }}
+                              />
+                              <label
+                                className="cursor-pointer"
+                                htmlFor={"grade" + type.id}
+                              >
+                                {type.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div> */}
+                        <select
+                          value={search.grade}
+                          onChange={(e) => {
+                            setSearch({ ...search, grade: Number(e.target.value) });
+                          }}
+                          className="p-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
+                        >
+                          <option value="5">小一</option>
+                          <option value="6">小二</option>
+                          <option value="7">小三</option>
+                          <option value="8">小四</option>
+                          <option value="9">小五</option>
+                          <option value="10">小六</option>
+                          <option value="11">國一</option>
+                          <option value="12">國二</option>
+                          <option value="13">國三</option>
+                          <option value="14">高一</option>
+                          <option value="15">高二</option>
+                          <option value="16">高三</option>
+                        </select>
+                      </div>
                       <div>
                         <label className="block text-sm/6 font-medium text-gray-900">科目</label>
-                        <div className="grid grid-cols-1">
+                        <div className="grid grid-cols-4">
+                          {course.map((type, index) => (
+                            <div key={index}>
+                              <input
+                                id={type.id}
+                                type="checkbox"
+                                className="mx-2"
+                                checked={courseType.some((id) => id == type.id)}
+                                onChange={(e) => {
+                                  console.log(type);
+                                  if (e.target.checked) {
+                                    setCourseType([...courseType, type.id]);
+                                  } else {
+                                    setCourseType(courseType.filter((id) => id != type.id));
+                                  }
+                                }}
+                              />
+                              <label
+                                className="cursor-pointer"
+                                htmlFor={type.id}
+                              >
+                                {type.name}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                        {/* <div className="grid grid-cols-1">
                           <select
                             value={search.course_no}
                             onChange={(e) => {
@@ -396,7 +472,7 @@ export default function Home() {
                             aria-hidden="true"
                             className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                           />
-                        </div>
+                        </div> */}
                       </div>
                       <div>
                         <label className="block text-sm/6 font-medium text-gray-900">類別</label>
@@ -451,53 +527,6 @@ export default function Home() {
                             className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                           />
                         </div> */}
-                      </div>
-                      <div className="">
-                        <label className="block text-sm/6 font-medium text-gray-900">年級</label>
-                        <div className="grid grid-cols-4">
-                          {grade_type.map((type, index) => (
-                            <div key={index}>
-                              <input
-                                id={"grade" + type.id}
-                                type="checkbox"
-                                className="mx-2"
-                                checked={gradeType.some((id) => id == type.id)}
-                                onChange={(e) => {
-                                  if (e.target.checked) {
-                                    setGradeType([...gradeType, Number(type.id)]);
-                                  } else {
-                                    setGradeType(gradeType.filter((id) => id != type.id));
-                                  }
-                                }}
-                              />
-                              <label
-                                className="cursor-pointer"
-                                htmlFor={"grade" + type.id}
-                              >
-                                {type.name}
-                              </label>
-                            </div>
-                          ))}
-                        </div>
-                        {/* <select
-                          onChange={(e) => {
-                            setSearch({ ...search, grade: e.target.value });
-                          }}
-                          className="p-2 block w-full rounded-md border-0 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300"
-                        >
-                          <option value="5">小一</option>
-                          <option value="6">小二</option>
-                          <option value="7">小三</option>
-                          <option value="8">小四</option>
-                          <option value="9">小五</option>
-                          <option value="10">小六</option>
-                          <option value="11">國一</option>
-                          <option value="12">國二</option>
-                          <option value="13">國三</option>
-                          <option value="14">高一</option>
-                          <option value="15">高二</option>
-                          <option value="16">高三</option>
-                        </select> */}
                       </div>
                       <div className="flex justify-center mt-12">
                         <button

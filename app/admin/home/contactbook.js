@@ -177,10 +177,10 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                                 );
                               })}
                             </td>
-                            <td className={`px-2 py-1 w-1/4`}>
+                            <td className={`px-2 py-1 w-1/4 overflow-auto`}>
                               <pre>{person.teacher_sugg}</pre>
                             </td>
-                            <td className={`${person.parent_sugg ? "ring ring-inset" : ""} px-2 py-1 w-1/4`}>
+                            <td className={`${person.parent_sugg ? "ring ring-inset" : ""} px-2 py-1 w-1/4 overflow-auto`}>
                               <pre>{person.parent_sugg}</pre>
                             </td>
                             <td className={`px-2 py-1 whitespace-nowrap`}>
