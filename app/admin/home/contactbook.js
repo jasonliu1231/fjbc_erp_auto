@@ -76,11 +76,11 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                     <div className="text-lg font-semibold">今日內容</div>
                     <div className="grid grid-cols-2 px-8">
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">課程</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.progress}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.progress}</pre>
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">作業</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.homework}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.homework}</pre>
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">考試提醒</div>
-                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto">{content.next_quiz}</pre>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.next_quiz}</pre>
                     </div>
                   </div>
                   <div className="mt-4">
@@ -155,7 +155,6 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                               />
                             </td>
                             <td className={`px-2 py-1`}>
-                              {" "}
                               <div
                                 className=""
                                 dangerouslySetInnerHTML={{ __html: person.b_col }}
@@ -177,11 +176,11 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                                 );
                               })}
                             </td>
-                            <td className={`px-2 py-1 w-1/4 overflow-auto`}>
-                              <pre>{person.teacher_sugg}</pre>
+                            <td className={`px-2 py-1 w-1/4`}>
+                              <div>{person.teacher_sugg}</div>
                             </td>
-                            <td className={`${person.parent_sugg ? "ring ring-inset" : ""} px-2 py-1 w-1/4 overflow-auto`}>
-                              <pre>{person.parent_sugg}</pre>
+                            <td className={`${person.parent_sugg ? "ring ring-inset" : ""} px-2 py-1 w-1/4`}>
+                              <div>{person.parent_sugg}</div>
                             </td>
                             <td className={`px-2 py-1 whitespace-nowrap`}>
                               {person.exam?.map((item, index) => {
