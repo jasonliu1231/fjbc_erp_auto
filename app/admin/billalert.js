@@ -44,7 +44,7 @@ export default function Example() {
 
   return (
     <>
-      {/* {message > 0 && (
+      {message > 0 && (
         <a
           href="/admin/message"
           className="mx-2 text-sm font-semibold leading-6 text-gray-900 flex items-center hover:border-b-2"
@@ -53,7 +53,7 @@ export default function Example() {
           <span className="mx-1">未讀</span>
           <div className="w-5 h-5 bg-red-500 text-gray-200 text-center text-sm rounded-full">{message}</div>
         </a>
-      )} */}
+      )}
       {/* {makeup > 0 && (
         <a
           href="/admin/makeup"
@@ -64,7 +64,7 @@ export default function Example() {
           <div className="w-5 h-5 bg-red-500 text-gray-200 text-center text-sm rounded-full">{makeup}</div>
         </a>
       )} */}
-      {/* {reply > 0 && (
+      {reply > 0 && (
         <a
           href="/admin/contactbook"
           className="mx-2 text-sm font-semibold leading-6 text-gray-900 flex items-center hover:border-b-2"
@@ -73,7 +73,7 @@ export default function Example() {
           <span className="mx-1">聯絡簿</span>
           <div className="w-5 h-5 bg-red-500 text-gray-200 text-center text-sm rounded-full">{reply}</div>
         </a>
-      )} */}
+      )}
       {purchase > 0 && (
         <a
           href="/admin/purchase"

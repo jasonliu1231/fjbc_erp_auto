@@ -1037,9 +1037,9 @@ export default function Home() {
                               </div>
                               <time
                                 dateTime={item.dateTime}
-                                className="flex-none py-0.5 text-xs/5 text-gray-500"
+                                className="flex-none py-0.5 text-xs/5 text-gray-500 text-right"
                               >
-                                <div className="hidden">{item.date}</div>
+                                <div>{item.date}</div>
                                 <div>{item.time}</div>
                               </time>
                             </div>
@@ -1143,7 +1143,6 @@ export default function Home() {
                           className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600"
                         >
                           <span>
-                            {" "}
                             <PaperClipIcon
                               aria-hidden="true"
                               className="size-5"

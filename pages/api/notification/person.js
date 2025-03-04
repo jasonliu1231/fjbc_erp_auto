@@ -36,7 +36,6 @@ export default async function expoPushNotification(req, res) {
 }
 
 async function sendNotifications(tokens, title, message) {
-  console.log(tokens);
   const expo = new Expo();
   const messages = tokens.token_list
     .map((token) => {
