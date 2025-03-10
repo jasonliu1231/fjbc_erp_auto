@@ -13,7 +13,7 @@ export default async function expoPushNotification(req, res) {
   }
 
   const sql = `SELECT ARRAY_AGG(DISTINCT push_token) token_list 
-                FROM mobile_user WHERE user_id=ANY($1) AND push_token IS NOT NULL
+                FROM mobile_user WHERE user_id=ANY($1) AND type IN (1,3) AND push_token IS NOT NULL
                 GROUP BY type`;
   const result = await pool.query(sql, [user_id]);
   const validTokens = result.rows;
