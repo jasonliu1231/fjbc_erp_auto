@@ -28,9 +28,13 @@ export default function Home() {
     person_id: 0,
     begin: "",
     end: "",
+    start_time: "",
+    end_time: "",
+    status: 0,
     uuid: ""
   });
   const [grade, setGrade] = useState(0);
+  const [teacherStateList, setTeacherStateList] = useState([]);
 
   const studentList = grade == 0 ? students : students.filter((i) => i.grade?.id == grade);
   let filterStudent =
@@ -181,11 +185,13 @@ export default function Home() {
     let api1 = fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/tutoring/course_time/${id}/get`, config);
     let api2 = fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/student/list?student_status_id=1`, config);
     let api3 = fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/teacher/list?show_exit=false`, config);
+    let api4 = fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/tutoring/course_schedule_teacher/profile`, config);
 
-    Promise.all([api1, api2, api3]).then(async ([response1, response2, response3]) => {
+    Promise.all([api1, api2, api3, api4]).then(async ([response1, response2, response3, response4]) => {
       const res1 = await response1.json();
       const res2 = await response2.json();
       const res3 = await response3.json();
+      const res4 = await response4.json();
 
       if (response1.ok) {
         setItem(res1.course[0]);
@@ -221,7 +227,19 @@ export default function Home() {
           msg: "錯誤" + msg
         });
       }
+
+      if (response4.ok) {
+        setTeacherStateList(res4);
+      } else {
+        const msg = error(response4.status, res4);
+        setInfo({
+          show: true,
+          success: false,
+          msg: "錯誤" + msg
+        });
+      }
     });
+
     setLoading(false);
   }
 
@@ -300,6 +318,66 @@ export default function Home() {
                   />
                 </div>
               </div>
+              {!status && type.current == 1 && (
+                <>
+                  <div className="mt-2">
+                    <label className="block text-sm font-semibold leading-6 ">起始時間</label>
+                    <div>
+                      <input
+                        value={select.start_time}
+                        onChange={(e) => {
+                          setSelect({
+                            ...select,
+                            start_time: e.target.value
+                          });
+                        }}
+                        type="time"
+                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 "
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-2">
+                    <label className="block text-sm font-semibold leading-6 ">結束時間</label>
+                    <div>
+                      <input
+                        value={select.end_time}
+                        onChange={(e) => {
+                          setSelect({
+                            ...select,
+                            end_time: e.target.value
+                          });
+                        }}
+                        type="time"
+                        className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 "
+                      />
+                    </div>
+                  </div>
+                  <div className="col-span-1">
+                    <label className="block text-sm/6 font-medium text-gray-900">身份</label>
+                    <select
+                      value={select.status}
+                      onChange={(e) => {
+                        setSelect({
+                          ...select,
+                          status: Number(e.target.value)
+                        });
+                      }}
+                      className="p-2 block w-full rounded-md border-0 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
+                    >
+                      <option value={0}></option>
+                      {teacherStateList.map((i) => (
+                        <option
+                          key={i.id}
+                          value={i.id}
+                        >
+                          {i.content}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              )}
+
               <div className="mt-5 flex justify-center">
                 <button
                   type="button"
