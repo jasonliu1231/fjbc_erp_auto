@@ -253,7 +253,7 @@ export default function Home() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/user/list`, config);
     const res = await response.json();
     if (response.ok) {
-      setUser(res.filter((i) => i.role_id == 4 || i.role_id == 5));
+      setUser(res);
     } else {
       const msg = error(response.status, res);
       setInfo({

@@ -741,6 +741,7 @@ export default function Example({ setInfo }) {
                           : ""}
                       </div>
                     </div>
+                    <div className={`text-lg text-gray-800`}>{item.teacher?.map((item) => item.c_name).join(",")}</div>
                     <div className={`${item.classroom_name ? "" : "text-red-300"} text-md text-gray-600`}>{item.classroom_name || "無教室"}</div>
                     <div className="text-sm text-gray-900 flex justify-between">
                       {item?.start_time?.substr(0, 5)}~{item?.end_time?.substr(0, 5)}
