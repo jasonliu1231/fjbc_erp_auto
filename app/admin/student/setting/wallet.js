@@ -9,7 +9,7 @@ export default function Home({ student_id, setInfo }) {
   const [couponList, setCouponList] = useState([]);
   const [depositList, setDepositList] = useState([]);
   const [pointList, setPointList] = useState([]);
-  const [point, setPoint] = useState(0);
+  const [point, setPoint] = useState("");
   const [totalPoint, setTotalPoint] = useState(0);
   const [offset, setOffset] = useState(0);
   const [prizeOffset, setPrizeOffset] = useState(0);
@@ -22,6 +22,7 @@ export default function Home({ student_id, setInfo }) {
   const [prizeLogList, setPrizeLogList] = useState([]);
   const [selectPrizeList, setSelectPrizeList] = useState([]);
   const [invoiceList, setInvoiceList] = useState([]);
+  const [reasonList, setReasonList] = useState([]);
 
   async function getTicket() {
     const config = {
@@ -99,6 +100,7 @@ export default function Home({ student_id, setInfo }) {
     if (response.ok) {
       getPointLog();
       getPointTotal();
+      getReason();
       setOffset(0);
     } else {
       const msg = error(response.status, res);
@@ -290,6 +292,30 @@ export default function Home({ student_id, setInfo }) {
     }
   }
 
+  async function getReason() {
+    const config = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
+        "Content-Type": "application/json"
+      }
+    };
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/student/point/reason`, config);
+    const res = await response.json();
+    if (response.ok) {
+      setReasonList(res);
+    } else {
+      const msg = error(response.status, res);
+      setInfo({
+        show: true,
+        success: false,
+        msg: "錯誤" + msg
+      });
+    }
+  }
+
   useEffect(() => {
     getPointLog();
   }, [offset]);
@@ -306,6 +332,7 @@ export default function Home({ student_id, setInfo }) {
     if (student_id != 0) {
       getTicket();
       getPointTotal();
+      getReason();
     }
   }, [student_id]);
 
@@ -423,10 +450,8 @@ export default function Home({ student_id, setInfo }) {
                     <input
                       value={point}
                       onChange={(e) => {
-                        const p = Number(e.target.value);
-                        setPoint(p);
+                        setPoint(e.target.value);
                       }}
-                      type="number"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
                   </div>
@@ -441,8 +466,17 @@ export default function Home({ student_id, setInfo }) {
                       }}
                       type="text"
                       placeholder="如果是扣點請寫原因"
+                      list="point-reasons"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
+                    <datalist id="point-reasons">
+                      {reasonList.map((item, index) => (
+                        <option
+                          key={index}
+                          value={item.reason}
+                        />
+                      ))}
+                    </datalist>
                   </div>
                 </div>
                 <div className="mt-2 flex justify-between">

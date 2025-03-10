@@ -807,6 +807,9 @@ export default function Example({ setInfo }) {
                         <div className="mx-1">
                           {item.c_name}({item.e_name})
                         </div>
+                        <div className="mx-1">
+                          點數餘額：<span className={item.point > 0 ? "text-green-600" : "text-red-600"}>{item.point}</span>
+                        </div>
                       </div>
                       <div className={`${student_state[student_style].color}`}>{student_state[student_style].title}</div>
                     </div>
