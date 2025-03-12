@@ -203,6 +203,28 @@ export default function Home() {
                     補習班
                   </th>
                   <th
+                    // onClick={() => {
+                    //   if (search.type == 2) {
+                    //     getPreparation(2, !search.bool);
+                    //     setSearch({
+                    //       ...search,
+                    //       bool: !search.bool
+                    //     });
+                    //   } else {
+                    //     getPreparation(2, true);
+                    //     setSearch({
+                    //       ...search,
+                    //       type: 2,
+                    //       bool: true
+                    //     });
+                    //   }
+                    // }}
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 "
+                  >
+                    建表時間
+                  </th>
+                  <th
                     onClick={() => {
                       if (search.type == 2) {
                         getPreparation(2, !search.bool);
@@ -371,6 +393,7 @@ export default function Home() {
                     className="hover:bg-gray-100"
                   >
                     <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">{tutoring.filter((i) => i.id == item.tutoring_id)[0].name}</td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{new Date(item.createdon).toLocaleString()}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.chinese_name}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.meeting && new Date(item.meeting).toLocaleString("zh-TW", { hour12: false })}</td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{item.trialclass && new Date(item.trialclass).toLocaleString("zh-TW", { hour12: false })}</td>

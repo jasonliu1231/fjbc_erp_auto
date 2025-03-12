@@ -6,6 +6,21 @@ import { CheckCircleIcon, XCircleIcon, PlusCircleIcon, DocumentChartBarIcon, Pho
 import { error } from "../../../utils";
 import Alert from "../../alert";
 
+function changeDateTime(data) {
+  if (!data) return;
+  const dateObj = new Date(data);
+
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+  const hours = String(dateObj.getHours()).padStart(2, "0");
+  const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+
+  const dateStr = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+  return dateStr;
+}
+
 export default function Home() {
   const [info, setInfo] = useState({
     show: false,
@@ -311,8 +326,8 @@ export default function Home() {
                 <label className="block text-md font-medium text-gray-500">期限</label>
               </div>
               <div className="col-span-2">
-                <div className="text-red-400">{questionnaire.deadline ? new Date(questionnaire.deadline).toLocaleString() : "無設定"}</div>
                 <input
+                  value={changeDateTime(questionnaire.deadline)}
                   onChange={(event) => {
                     setQuestionnaire({
                       ...questionnaire,
