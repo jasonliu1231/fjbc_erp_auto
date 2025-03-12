@@ -65,7 +65,7 @@ export default function Home({ schedule_id, setInfo, getData }) {
             >
               <div className="text-center text-2xl text-blue-400">恢復上課</div>
               <div className="mt-2">
-                <label className="block text-sm font-medium leading-6 text-gray-900">備註</label>
+                <label className="block text-sm font-medium leading-6 text-gray-900">原因</label>
                 <div className="mt-2">
                   <textarea
                     value={submitData.remark}

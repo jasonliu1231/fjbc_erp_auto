@@ -1354,7 +1354,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="col-span-2 row-span-2">
-                  <label className="block text-sm font-medium leading-6 text-gray-900">備註</label>
+                  <label className="block text-sm font-medium leading-6 text-gray-900">原因</label>
                   <div className="mt-2">
                     <textarea
                       value={extData.remark}

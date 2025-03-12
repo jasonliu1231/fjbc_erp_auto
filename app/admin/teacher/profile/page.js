@@ -320,9 +320,9 @@ export default function Home() {
                               onClick={() => {
                                 deleteItem(item.id, !item.enable);
                               }}
-                              className={`${item.enable ? "text-red-400 hover:text-red-600" : "text-green-400 hover:text-green-600"} mx-2 cursor-pointer`}
+                              className={`${!item.enable ? "text-red-400 hover:text-red-600" : "text-green-400 hover:text-green-600"} mx-2 cursor-pointer`}
                             >
-                              {item.enable ? " 關閉" : " 開啟"}
+                              {!item.enable ? " 關閉中" : " 啟用中"}
                             </span>
                           </td>
                         </tr>

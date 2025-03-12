@@ -498,7 +498,7 @@ export default function Home() {
                   <div className="col-span-2">上課日期</div>
                   <div className="col-span-2">原訂日期</div>
                   <div className="col-span-2">狀態</div>
-                  <div className="col-span-3">備註</div>
+                  <div className="col-span-3">原因</div>
                   <div className="col-span-1">查看</div>
                   <div className="col-span-1 text-right">補課時數</div>
                 </li>
@@ -715,7 +715,7 @@ export default function Home() {
                 )}
 
                 <div className="col-span-1">
-                  <label className="block text-sm font-medium leading-6 text-gray-900">備註</label>
+                  <label className="block text-sm font-medium leading-6 text-gray-900">原因</label>
                   <div className="mt-2">
                     <textarea
                       value={select.remark}

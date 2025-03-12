@@ -77,7 +77,7 @@ export default function Example({ setInfo }) {
     const res = await response.json();
     if (response.ok) {
       window.open(`/admin/payment/invoice?id=${res.id}`, "_blank", "noopener,noreferrer");
-      window.location.reload;
+      window.location.reload();
     } else {
       const msg = error(response.status, res);
       setInfo({
