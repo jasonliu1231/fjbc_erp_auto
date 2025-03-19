@@ -239,7 +239,7 @@ export default function Home() {
     const detail = updateData.detail.filter((i) => i.content != "");
     updateData.detail = detail;
     updateData.amount = detail.reduce((amount, item) => amount + item.money, 0);
-    if (updateData.amount <= 0) {
+    if (updateData.amount < 0) {
       alert("明細總金額錯誤！");
       return;
     }
@@ -1620,7 +1620,7 @@ export default function Home() {
                   <td className={`hidden px-3 py-4 text-sm text-left`}>{bill.remark}</td>
                   <td className={`${bill.state ? "text-green-500" : "text-red-500"} whitespace-nowrap px-3 py-4 text-sm text-right`}>{bill.state ? "收入" : "支出"}</td>
                   <td className={`${bill.state ? "text-green-500" : "text-red-500"} whitespace-nowrap px-3 py-4 text-sm text-left`}>{bill.amount}</td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm font-medium text-gray-900">{bill.invoice}</td>
+                  <td className="px-3 py-4 text-sm font-medium text-gray-900">{bill.invoice}</td>
                   <td className="whitespace-nowrap px-3 py-4 text-sm flex justify-between">
                     {bill.review ? (
                       <span>已送審</span>

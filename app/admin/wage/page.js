@@ -8,6 +8,21 @@ export default function Home() {
           <div className="flex items-end">
             <h1 className="text-xl font-semibold text-gray-900">明細報表</h1>
           </div>
+          <div className="text-blue-600 text-xl my-2 border-b-2">簽到</div>
+          <div className="grid grid-cols-5 gap-4">
+            <a
+              href="/admin/wage/attendance/person"
+              className="col-span-1 font-semibold rounded-lg bg-white px-8 py-4 text-center hover:bg-pink-200"
+            >
+              個人簽到表
+            </a>
+            {/* <a
+              href="/admin/wage/attendance/total"
+              className="col-span-1 font-semibold rounded-lg bg-white px-8 py-4 text-center hover:bg-pink-200"
+            >
+              總簽到時數表
+            </a> */}
+          </div>
           <div className="text-blue-600 text-xl my-2 border-b-2">薪資</div>
           <div className="grid grid-cols-5 gap-4">
             <a
