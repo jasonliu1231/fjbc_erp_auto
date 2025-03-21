@@ -31,7 +31,8 @@ import {
   UserPlusIcon,
   UsersIcon,
   TagIcon,
-  ClipboardIcon
+  ClipboardIcon,
+  GiftIcon
 } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 
@@ -339,6 +340,13 @@ export default function Example() {
       description: "補課資料",
       href: "/admin/makeup",
       icon: HandThumbDownIcon,
+      blank: false
+    },
+    {
+      name: "點數對換",
+      description: "加扣點、禮物兌換",
+      href: "/admin/point",
+      icon: GiftIcon,
       blank: false
     }
   ];
