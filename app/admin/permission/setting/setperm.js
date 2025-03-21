@@ -209,6 +209,38 @@ export default function Home({ setInfo }) {
                   <p className="text-gray-500">教師身份開關</p>
                 </div>
               </div>
+              <div className="relative flex items-start">
+                <div className="flex h-6 items-center">
+                  <input
+                    checked={uuidList.some((i) => i == "63ebaa09-c7c6-5a4a-5832-71c823b29410")}
+                    onChange={() => {
+                      handelUUid("63ebaa09-c7c6-5a4a-5832-71c823b29410");
+                    }}
+                    type="checkbox"
+                    className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                </div>
+                <div className="ml-3 text-sm leading-6">
+                  <label className="font-medium text-gray-900">到校報表查詢</label>
+                  <p className="text-gray-500">教師到校紀錄</p>
+                </div>
+              </div>
+              <div className="relative flex items-start">
+                <div className="flex h-6 items-center">
+                  <input
+                    checked={uuidList.some((i) => i == "f9b9efcf-641d-7f70-72b2-ce50c556e62b")}
+                    onChange={() => {
+                      handelUUid("f9b9efcf-641d-7f70-72b2-ce50c556e62b");
+                    }}
+                    type="checkbox"
+                    className="h-5 w-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
+                  />
+                </div>
+                <div className="ml-3 text-sm leading-6">
+                  <label className="font-medium text-gray-900">到校報表審核</label>
+                  <p className="text-gray-500">教師到校紀錄審核</p>
+                </div>
+              </div>
             </div>
           </fieldset>
         </div>
