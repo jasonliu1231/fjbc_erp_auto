@@ -123,7 +123,7 @@ export default function Home({ setAlert }) {
     <>
       <div className="text-xl my-4 flex justify-between">
         <span>權限名稱：{info.name}</span>
-        <span>建立時間：{new Date(info.createdon).toLocaleString()}</span>
+        <span>建立時間：{new Date(info.create_at).toLocaleDateString()}</span>
       </div>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-8">
         {permUserList ? (

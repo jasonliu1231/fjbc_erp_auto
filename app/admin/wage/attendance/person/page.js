@@ -24,8 +24,9 @@ export default function Home() {
   });
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState(null);
-  const [totalAttendance, setTotalAttendance] = useState(0);
-  const [totalCourse, setTotalCourse] = useState(0);
+  const [total, setTotal] = useState({});
+  const [open, setOpen] = useState(false);
+  const [checkData, setCheckData] = useState({});
 
   const filteredPeople =
     query === ""
@@ -97,20 +98,20 @@ export default function Home() {
       return;
     }
     const config = {
-      method: "PATCH",
+      method: "GET",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         clientid: `${localStorage.getItem("client_id")}`,
         "Content-Type": "application/json"
-      },
-      body: JSON.stringify(view)
+      }
     };
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/wage/attendance/person`, config);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/wage/attendance/person?teacher_id=${view.teacher_id}&begin=${view.begin}&end=${view.end}`, config);
     const res = await response.json();
     if (response.ok) {
       setList(res);
       let allAttendance = 0;
       let allCourse = 0;
+      let allCheck = 0;
       res.forEach((item) => {
         item.attendance?.forEach((data) => {
           const time = data.total_time?.split(":");
@@ -119,15 +120,22 @@ export default function Home() {
           }
         });
         item.course?.forEach((data) => {
-          const time = data.working_time?.split(":");
+          const course_time = data.course_time?.split(":");
+          const working_time = data.working_time?.split(":");
+          if (data.course_time) {
+            allCourse += Number(course_time[0]) * 60 + Number(course_time[1]);
+          }
           if (data.working_time) {
-            allCourse += Number(time[0]) * 60 + Number(time[1]);
+            allCheck += Number(working_time[0]) * 60 + Number(working_time[1]);
           }
         });
       });
 
-      setTotalAttendance(allAttendance);
-      setTotalCourse(allCourse);
+      setTotal({
+        attendance: allAttendance,
+        course: allCourse,
+        check: allCheck
+      });
     } else {
       const msg = error(response.status, res);
       setInfo({
@@ -170,6 +178,31 @@ export default function Home() {
     }
   }
 
+  async function checkTime() {
+    const config = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(checkData)
+    };
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/wage/attendance/check`, config);
+    const res = await response.json();
+    if (response.ok) {
+      getItemList();
+      setOpen(false);
+    } else {
+      const msg = error(response.status, res);
+      setInfo({
+        show: true,
+        success: false,
+        msg: "錯誤" + msg
+      });
+    }
+  }
+
   useEffect(() => {
     getTeacher();
   }, []);
@@ -189,6 +222,73 @@ export default function Home() {
         info={info}
         setInfo={setInfo}
       />
+
+      <Dialog
+        open={open}
+        onClose={() => {}}
+        className="relative z-10"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-sm sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            >
+              <div>
+                <div>起始時間</div>
+                <input
+                  value={checkData.check_in_time}
+                  onChange={(e) => {
+                    setCheckData({
+                      ...checkData,
+                      check_in_time: e.target.value
+                    });
+                  }}
+                  className="ring-1 w-full p-2"
+                  type="time"
+                />
+              </div>
+              <div>
+                <div>結束時間</div>
+                <input
+                  value={checkData.check_out_time}
+                  onChange={(e) => {
+                    setCheckData({
+                      ...checkData,
+                      check_out_time: e.target.value
+                    });
+                  }}
+                  className="ring-1 w-full p-2"
+                  type="time"
+                />
+              </div>
+              <div className="mt-5 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                  className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold ring-2 mx-1"
+                >
+                  關閉
+                </button>
+                <button
+                  type="button"
+                  onClick={checkTime}
+                  className="inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-green-600 ring-2 ring-green-400 mx-1"
+                >
+                  送出
+                </button>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
 
       <div className="container mx-auto">
         <div className="flex items-end justify-between mt-5">
@@ -279,7 +379,7 @@ export default function Home() {
             >
               查詢
             </button>
-            <ExportToExcel />
+            {/* <ExportToExcel /> */}
           </span>
         </div>
 
@@ -294,37 +394,39 @@ export default function Home() {
                   <tr className="divide-x divide-gray-200 bg-green-100 sticky top-0">
                     <th
                       scope="col"
-                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200"
+                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200 w-1/12"
                     >
                       名稱
                     </th>
                     <th
                       scope="col"
-                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200"
+                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200 w-1/12"
                     >
                       日期
                     </th>
                     <th
                       scope="col"
-                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200"
+                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200 w-1/3"
                     >
-                      <div className="mb-2">打卡時段</div>
+                      <div className="mb-4 text-center text-gray-500">打卡時段紀錄</div>
                       <div className="flex">
-                        <span className="flex-1">起始時間</span>
-                        <span className="flex-1">結束時間</span>
+                        <span className="flex-1">起始</span>
+                        <span className="flex-1">結束</span>
                         <span className="flex-1">時數</span>
                       </div>
                     </th>
                     <th
                       scope="col"
-                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200"
+                      className="py-2 pl-2 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-green-200 w-1/2"
                     >
-                      <div className="mb-2">課程</div>
+                      <div className="mb-4 text-center text-gray-500">課程審核資料</div>
                       <div className="flex">
-                        <span className="flex-1">課程名稱</span>
-                        <span className="flex-1">起始時間</span>
-                        <span className="flex-1">結束時間</span>
+                        <span className="flex-1">名稱</span>
+                        <span className="flex-1">起始</span>
+                        <span className="flex-1">結束</span>
                         <span className="flex-1">時數</span>
+                        <span className="flex-1"></span>
+                        <span className="flex-1">已審時段</span>
                       </div>
                     </th>
                   </tr>
@@ -362,7 +464,24 @@ export default function Home() {
                                 <span className="flex-1">{item.course_name}</span>
                                 <span className="flex-1">{item.start_time?.substr(0, 5)}</span>
                                 <span className="flex-1">{item.end_time?.substr(0, 5)}</span>
-                                <span className="flex-1">{item.working_time?.substr(0, 5)}</span>
+                                <span className="flex-1">{item.course_time?.substr(0, 5)}</span>
+                                <span
+                                  className={`${item.check_in_time ? "text-green-500" : "text-pink-500"} flex-1 cursor-pointer`}
+                                  onClick={() => {
+                                    setCheckData({
+                                      ...view,
+                                      tutoring_course_schedule_id: item.schedule_id,
+                                      date: item.course_date,
+                                      check_in_time: item.start_time,
+                                      check_out_time: item.end_time,
+                                      tcst_id: item.tcst_id
+                                    });
+                                    setOpen(true);
+                                  }}
+                                >
+                                  {item.check_in_time ? "已審核" : "未審核"}
+                                </span>
+                                <span className="flex-1">{item.check_in_time ? `${item.check_in_time?.substr(0, 5)}~${item.check_out_time?.substr(0, 5)}` : null}</span>
                               </div>
                             );
                           })}
@@ -370,13 +489,18 @@ export default function Home() {
                       </tr>
                     );
                   })}
+                </tbody>
+                <tfoot>
                   <tr className="bg-yellow-50">
                     <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900"></td>
                     <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900"></td>
-                    <td className="whitespace-nowrap text-sm font-medium text-gray-900">總打卡時數：{totalAttendance} 分鐘</td>
-                    <td className="whitespace-nowrap text-sm font-medium text-gray-900">總上課時數：{totalCourse} 分鐘</td>
+                    <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right pr-6">總打卡時數：{total.attendance} 分鐘</td>
+                    <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right">
+                      <span className="mx-5">總課程時數：{total.course} 分鐘</span>
+                      <span className="mx-5">總審核時數：{total.check} 分鐘</span>
+                    </td>
                   </tr>
-                </tbody>
+                </tfoot>
               </table>
             </div>
           </div>

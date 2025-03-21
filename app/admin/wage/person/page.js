@@ -539,6 +539,8 @@ export default function Home() {
                         </tr>
                       );
                     })}
+                  </tbody>
+                  <tfoot>
                     <tr className="bg-yellow-50">
                       <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900 text-right">姓名：</td>
                       <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-left">{selectedPerson?.name}</td>
@@ -552,7 +554,7 @@ export default function Home() {
                       <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right">應付小計：</td>
                       <td className="whitespace-nowrap pr-2 text-sm font-medium text-gray-900 text-right">{amount_money}</td>
                     </tr>
-                  </tbody>
+                  </tfoot>
                 </table>
               </div>
             </div>
