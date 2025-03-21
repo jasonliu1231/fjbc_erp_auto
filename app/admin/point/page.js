@@ -5,6 +5,73 @@ import Alert from "../alert";
 import { Label, Dialog, DialogPanel, DialogBackdrop, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 
+const items = [
+  {
+    grade_id: 1,
+    grade_name: "幼幼班"
+  },
+  {
+    grade_id: 2,
+    grade_name: "小班"
+  },
+  {
+    grade_id: 3,
+    grade_name: "中班"
+  },
+  {
+    grade_id: 4,
+    grade_name: "大班"
+  },
+  {
+    grade_id: 5,
+    grade_name: "國小一"
+  },
+  {
+    grade_id: 6,
+    grade_name: "國小二"
+  },
+  {
+    grade_id: 7,
+    grade_name: "國小三"
+  },
+  {
+    grade_id: 8,
+    grade_name: "國小四"
+  },
+  {
+    grade_id: 9,
+    grade_name: "國小五"
+  },
+  {
+    grade_id: 10,
+    grade_name: "國小六"
+  },
+  {
+    grade_id: 11,
+    grade_name: "國中一"
+  },
+  {
+    grade_id: 12,
+    grade_name: "國中二"
+  },
+  {
+    grade_id: 13,
+    grade_name: "國中三"
+  },
+  {
+    grade_id: 14,
+    grade_name: "高中一"
+  },
+  {
+    grade_id: 15,
+    grade_name: "高中二"
+  },
+  {
+    grade_id: 16,
+    grade_name: "高中三"
+  }
+];
+
 export default function Home() {
   const [info, setInfo] = useState({
     show: false,
@@ -18,7 +85,7 @@ export default function Home() {
     name: ""
   });
   const [query, setQuery] = useState("");
-  const [point, setPoint] = useState("");
+  const [point, setPoint] = useState(0);
   const [totalPoint, setTotalPoint] = useState(0);
   const [open, setOpen] = useState(false);
   const [pointList, setPointList] = useState([]);
@@ -28,8 +95,9 @@ export default function Home() {
   const [reasonList, setReasonList] = useState([]);
   const [createPointReason, setCreatePointReason] = useState("");
   const [compare, setCompare] = useState(0);
+  const [grade, setGrade] = useState([]);
 
-  const filteredStudent =
+  let filteredStudent =
     query === ""
       ? studentList
       : studentList.filter((i) => {
@@ -37,6 +105,8 @@ export default function Home() {
           return name.includes(query.toLowerCase());
         });
 
+  filteredStudent = grade.length === 0 ? filteredStudent : filteredStudent.filter((person) => grade.some((id) => person.grade && person.grade == id));
+  console.log(filteredStudent);
   async function createPoint() {
     if (student.student_id == 0) {
       setInfo({
@@ -156,7 +226,8 @@ export default function Home() {
         res.list.map((person) => {
           return {
             student_id: person.id,
-            name: person.user.first_name
+            name: person.user.first_name,
+            grade: person.grade?.id
           };
         })
       );
@@ -375,8 +446,22 @@ export default function Home() {
         </div>
 
         <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl px-4 py-6 m-2">
-          <div className="grid grid-cols-6 gap-2">
-            <div className="col-span-2">
+          <div className="grid grid-cols-8">
+            {items.map((item) => (
+              <div
+                key={item.grade_id}
+                className={`${grade.some((id) => id == item.grade_id) && "bg-pink-100"} border p-1 m-1 text-center rounded-md cursor-pointer`}
+                onClick={() => {
+                  grade.some((id) => id == item.grade_id) ? setGrade(grade.filter((id) => id != item.grade_id)) : setGrade([...grade, item.grade_id]);
+                }}
+              >
+                {item.grade_name}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            <div className="col-span-1">
               <Combobox
                 as="div"
                 value={student}
@@ -443,7 +528,7 @@ export default function Home() {
                 />
               </div>
             </div>
-            <div className="mt-2 col-span-2">
+            <div className="mt-2 col-span-1">
               <label className="block text-sm/6 font-medium text-gray-900">原因</label>
               <div>
                 <input
