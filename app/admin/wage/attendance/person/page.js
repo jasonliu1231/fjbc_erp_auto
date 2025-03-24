@@ -447,8 +447,8 @@ export default function Home() {
                                 key={index}
                                 className={`${index != 0 && "border-t-2 border-red-200"} flex p-2`}
                               >
-                                <span className="flex-1">{item.start_time?.substr(0, 5)}</span>
-                                <span className="flex-1">{item.end_time?.substr(0, 5)}</span>
+                                <span className={`${item.start_time || "text-red-500"} flex-1`}>{item.start_time ? item.start_time.substr(0, 5) : "未打卡"}</span>
+                                <span className={`${item.end_time || "text-red-500"} flex-1`}>{item.end_time ? item.end_time.substr(0, 5) : "未打卡"}</span>
                                 <span className="flex-1">{item.total_time?.substr(0, 5)}</span>
                               </div>
                             );
@@ -491,7 +491,7 @@ export default function Home() {
                   })}
                 </tbody>
                 <tfoot>
-                  <tr className="bg-yellow-50">
+                  <tr className="bg-yellow-50 sticky bottom-0">
                     <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900"></td>
                     <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900"></td>
                     <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right pr-6">總打卡時數：{total.attendance} 分鐘</td>
