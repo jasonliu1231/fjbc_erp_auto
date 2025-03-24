@@ -98,7 +98,6 @@ export default function Example({ setInfo }) {
             />
           </div>
           <div className="col-span-1">
-            {" "}
             <label className="block text-sm font-semibold text-gray-900">代表色</label>
             <input
               type="color"

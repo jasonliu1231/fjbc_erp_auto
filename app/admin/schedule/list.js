@@ -171,7 +171,7 @@ export default function Example({ setInfo }) {
             <ArrowPathIcon className="w-5 h-5" />
           </button>
         </div> */}
-      </div>{" "}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-7 bg-white shadow-sm ring-1 ring-gray-200 rounded-xl p-4 mt-4">
         <div className="col-span-1">
           <ul
@@ -196,7 +196,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -234,7 +233,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -272,7 +270,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -310,7 +307,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -348,7 +344,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -386,7 +381,6 @@ export default function Example({ setInfo }) {
                     </div>
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>
@@ -425,7 +419,6 @@ export default function Example({ setInfo }) {
 
                     <div className="text-md flex items-center justify-between w-full">
                       <span>
-                        {" "}
                         {item.tutoring_course.course.course_name}
                         {item.tutoring_course.course_name_extend}
                       </span>

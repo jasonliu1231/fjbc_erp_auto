@@ -93,7 +93,7 @@ export default function Home() {
       <Alert
         info={info}
         setInfo={setInfo}
-      />{" "}
+      />
       <div className="container mx-auto p-2 sm:p-4">
         <div className="flex justify-between items-end">
           <div className="block">
@@ -176,7 +176,6 @@ export default function Home() {
         </div>
         {type == 1 ? (
           <>
-            {" "}
             <table className="min-w-full divide-y divide-gray-300 bg-white shadow-sm ring-1 ring-gray-200 rounded-md my-4">
               <thead>
                 <tr>

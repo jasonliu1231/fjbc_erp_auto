@@ -319,7 +319,6 @@ export default function Home({ setInfo }) {
                           <span className="text-gray-700 text-lg">{course.course_name}</span>
                         </div>
                         <div className="text-sm text-gray-500">
-                          {" "}
                           <div>{course.start_time.substr(0, 5)}</div>
                           <div>{course.end_time.substr(0, 5)}</div>
                         </div>

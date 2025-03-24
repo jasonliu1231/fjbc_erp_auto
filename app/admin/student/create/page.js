@@ -267,7 +267,6 @@ export default function Home() {
             </div>
           </nav>
           <div className="sm:text-2xl font-semibold leading-6 text-gray-900">
-            {" "}
             <button
               onClick={submit}
               type="submit"
@@ -333,7 +332,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="ml-3 text-sm leading-6">
-                    <label className="font-medium text-gray-900">臺中市私立多易文理短期補習班</label>{" "}
+                    <label className="font-medium text-gray-900">臺中市私立多易文理短期補習班</label>
                   </div>
                 </div>
                 <div className="relative flex items-start">
@@ -351,7 +350,7 @@ export default function Home() {
                     />
                   </div>
                   <div className="ml-3 text-sm leading-6">
-                    <label className="font-medium text-gray-900">臺中市私立艾思文理短期補習班</label>{" "}
+                    <label className="font-medium text-gray-900">臺中市私立艾思文理短期補習班</label>
                   </div>
                 </div>
                 <div className="relative flex items-start">
@@ -369,13 +368,12 @@ export default function Home() {
                     />
                   </div>
                   <div className="ml-3 text-sm leading-6">
-                    <label className="font-medium text-gray-900">臺中市私立華而敦國際文理短期補習班</label>{" "}
+                    <label className="font-medium text-gray-900">臺中市私立華而敦國際文理短期補習班</label>
                   </div>
                 </div>
               </div>
 
               <div className="col-span-1">
-                {" "}
                 <label className="block text-sm font-medium leading-6 text-gray-900">
                   <span className="text-red-400">*</span>學生身份
                 </label>

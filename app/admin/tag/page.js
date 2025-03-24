@@ -234,7 +234,6 @@ export default function Home() {
                   </button>
                 </div>
                 <div className="col-span-1">
-                  {" "}
                   <button
                     type="button"
                     onClick={() => {
@@ -317,7 +316,6 @@ export default function Home() {
                   </button>
                 </div>
                 <div className="col-span-1">
-                  {" "}
                   <button
                     type="button"
                     onClick={updateTag}
@@ -327,7 +325,6 @@ export default function Home() {
                   </button>
                 </div>
                 <div className="col-span-1">
-                  {" "}
                   <button
                     type="button"
                     onClick={() => checkTag(update.id)}

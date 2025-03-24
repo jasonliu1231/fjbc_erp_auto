@@ -586,7 +586,7 @@ export default function Home({ student_id, setInfo }) {
                       />
                     </div>
                     <div className="ml-3 text-sm leading-6">
-                      <label className="font-medium text-gray-900">多易</label>{" "}
+                      <label className="font-medium text-gray-900">多易</label>
                     </div>
                   </div>
                   <div className="relative flex items-start">
@@ -605,7 +605,7 @@ export default function Home({ student_id, setInfo }) {
                       />
                     </div>
                     <div className="ml-3 text-sm leading-6">
-                      <label className="font-medium text-gray-900">艾思</label>{" "}
+                      <label className="font-medium text-gray-900">艾思</label>
                     </div>
                   </div>
                   <div className="relative flex items-start">
@@ -624,7 +624,7 @@ export default function Home({ student_id, setInfo }) {
                       />
                     </div>
                     <div className="ml-3 text-sm leading-6">
-                      <label className="font-medium text-gray-900">華而敦</label>{" "}
+                      <label className="font-medium text-gray-900">華而敦</label>
                     </div>
                   </div>
                 </div>
@@ -794,7 +794,6 @@ export default function Home({ student_id, setInfo }) {
                 </div>
 
                 <div className="col-span-1">
-                  {" "}
                   <label className="block text-sm font-medium leading-6 text-red-500">學生身份</label>
                   <select
                     value={settingData.status}

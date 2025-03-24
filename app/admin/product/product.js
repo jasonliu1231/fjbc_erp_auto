@@ -602,7 +602,7 @@ export default function Home({ setInfo }) {
                 />
                 新增類別
               </button>
-            </div>{" "}
+            </div>
             {categoryList.map((item) => (
               <div
                 key={item.id}
@@ -685,7 +685,6 @@ export default function Home({ setInfo }) {
             ))}
           </div>
           <div className="col-span-1">
-            {" "}
             <div className="font-semibold text-xl">商品群組</div>
             {selected.category &&
               filterGroup.map((item) => (
@@ -792,7 +791,6 @@ export default function Home({ setInfo }) {
               ))}
           </div>
           <div className="col-span-1">
-            {" "}
             <div className="col-span-12 font-semibold text-xl mx-2">商品</div>
             {selected.group &&
               filterProduct.map((item) => (

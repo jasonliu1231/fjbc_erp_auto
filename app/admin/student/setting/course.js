@@ -414,7 +414,6 @@ export default function Home({ student_id, setInfo }) {
                                 : "#444444"
                           }}
                         >
-                          {" "}
                           {i.tutoring_course_status_id == 1
                             ? "正常"
                             : i.tutoring_course_status_id == 2

@@ -1590,7 +1590,6 @@ export default function Home() {
               <div className="flex mb-4">
                 <div className="w-1/3 flex items-end">
                   <div className="text-2xl">
-                    {" "}
                     {course.course.course_name}
                     {course.course_name_extend}
                   </div>

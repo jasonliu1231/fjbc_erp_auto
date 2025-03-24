@@ -275,7 +275,6 @@ export default function Home() {
                         />
                       </td>
                       <td className="whitespace-nowrap p-4 text-sm text-gray-500">
-                        {" "}
                         <input
                           value={create.wage}
                           onChange={(e) => {

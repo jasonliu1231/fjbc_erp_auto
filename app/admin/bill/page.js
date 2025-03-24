@@ -87,10 +87,11 @@ export default function Home() {
       const cells = row.querySelectorAll("td");
       data.push({
         日期: cells[0].innerText,
-        品項敘述: cells[1].innerText,
+        商品名稱: cells[1].innerText,
         數量: cells[2].innerText,
         單位: cells[3].innerText,
-        金額: cells[4].innerText
+        小計: cells[4].innerText,
+        備註: cells[5].innerText
       });
     });
 
@@ -439,6 +440,14 @@ export default function Home() {
   }
 
   async function getFoodDetail() {
+    if (!searchFood.begin || !searchFood.end) {
+      setInfo({
+        show: true,
+        success: false,
+        msg: "請選擇起始與結束時間"
+      });
+      return;
+    }
     const config = {
       method: "POST",
       headers: {
@@ -526,7 +535,6 @@ export default function Home() {
                     <div>
                       <label className="block text-sm font-medium leading-6 text-gray-900">時間範圍</label>
                       <div className="flex justify-center">
-                        {" "}
                         <Calendar
                           value={[search.begin, search.end]}
                           onChange={(value) => {
@@ -544,7 +552,6 @@ export default function Home() {
                       </div>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">單位選取</label>
                       {tutoring.map((item, index) => (
                         <button
@@ -791,7 +798,7 @@ export default function Home() {
                           rows={4}
                           placeholder="備註"
                           className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
-                        />{" "}
+                        />
                       </div>
                     </div>
                     <div className="col-span-2">
@@ -1075,6 +1082,7 @@ export default function Home() {
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500"></td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">總金額：</td>
                         <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{billDetail.reduce((all, item) => all + item.money, 0)}</td>
+                        <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -1204,7 +1212,7 @@ export default function Home() {
                     type="text"
                     placeholder="備註"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
-                  />{" "}
+                  />
                 </div>
               </div>
               <span className="isolate flex rounded-md shadow-sm mt-3 justify-end items-end">

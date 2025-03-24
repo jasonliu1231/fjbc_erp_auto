@@ -77,7 +77,7 @@ export function HistorySelect({ createData, settingData, setSettingData }) {
                 className="font-medium text-gray-900 cursor-pointer"
               >
                 {historyItem}
-              </label>{" "}
+              </label>
             </div>
           </div>
         </div>
@@ -296,7 +296,6 @@ export function SchoolSelect({ createData, settingData, setSettingData }) {
             </select>
           </div>
           <div className="w-full">
-            {" "}
             <select
               value={selected.grade}
               onChange={(e) => {

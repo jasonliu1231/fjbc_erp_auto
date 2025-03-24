@@ -517,7 +517,6 @@ export default function Home() {
                 </div>
                 {createData.state && (
                   <div className="col-span-1">
-                    {" "}
                     <label className="block text-sm font-medium leading-6 text-gray-900">類別</label>
                     <select
                       value={createData.category}
@@ -546,7 +545,6 @@ export default function Home() {
 
                 {createData.state && (
                   <div className="col-span-1">
-                    {" "}
                     <label className="block text-sm font-medium leading-6 text-gray-900">群組</label>
                     <select
                       value={createData.product_group_id}
@@ -573,7 +571,6 @@ export default function Home() {
                 )}
 
                 <div className="col-span-1">
-                  {" "}
                   <label className="block text-sm font-medium leading-6 text-gray-900">商品</label>
                   <select
                     value={createData.tutoring_product_id}
@@ -599,7 +596,6 @@ export default function Home() {
 
                 {createData.state && (
                   <div className="col-span-1">
-                    {" "}
                     <label className="block text-sm font-medium leading-6 text-gray-900">建立商品</label>
                     <input
                       value={createData.new_product_name}
@@ -631,12 +627,11 @@ export default function Home() {
                     type="number"
                     placeholder="數量"
                     className="p-2 block w-full rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400"
-                  />{" "}
+                  />
                 </div>
 
                 {createData.state && (
                   <div className="col-span-1">
-                    {" "}
                     <label className="block text-sm font-medium leading-6 text-gray-900">單價</label>
                     <input
                       value={createData.money}
@@ -714,7 +709,6 @@ export default function Home() {
                   </div>
                   <div className="relative mt-6 flex-1 px-4 sm:px-6">
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">單位</label>
                       {tutoring.map((item, index) => (
                         <button
@@ -735,7 +729,6 @@ export default function Home() {
                     <div>
                       <label className="block text-sm font-medium leading-6 text-gray-900">時間範圍</label>
                       <div className="flex justify-center">
-                        {" "}
                         <Calendar
                           value={[search.begin, search.end]}
                           onChange={(value) => {
@@ -753,7 +746,6 @@ export default function Home() {
                       </div>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">進出項</label>
                       <button
                         type="button"
@@ -793,7 +785,6 @@ export default function Home() {
                       </button>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">類別</label>
                       <select
                         value={search.product_category_id}
@@ -817,7 +808,6 @@ export default function Home() {
                       </select>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">群組</label>
                       <select
                         value={search.product_group_id}
@@ -890,7 +880,7 @@ export default function Home() {
                             </ComboboxOptions>
                           )}
                         </div>
-                      </Combobox>{" "}
+                      </Combobox>
                       {/* <label className="block text-sm font-medium leading-6 text-gray-900">商品</label>
                       <select
                         value={search.product_id}

@@ -388,7 +388,6 @@ export default function Home() {
                       金額
                     </label>
                     <div className="mt-2">
-                      {" "}
                       <input
                         onChange={(event) => {
                           const val = event.target.value;
@@ -424,7 +423,6 @@ export default function Home() {
                 教材費
               </label>
               <div className="mt-2">
-                {" "}
                 <input
                   onChange={(event) => {
                     const val = event.target.value;
@@ -448,7 +446,6 @@ export default function Home() {
                 餐費
               </label>
               <div className="mt-2">
-                {" "}
                 <input
                   onChange={(event) => {
                     const val = event.target.value;
@@ -472,7 +469,6 @@ export default function Home() {
                 交通費
               </label>
               <div className="mt-2">
-                {" "}
                 <input
                   onChange={(event) => {
                     const val = event.target.value;
@@ -496,7 +492,6 @@ export default function Home() {
                 折扣費用
               </label>
               <div className="mt-2">
-                {" "}
                 <input
                   onChange={(event) => {
                     const val = event.target.value;

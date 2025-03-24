@@ -123,7 +123,7 @@ export default function Example({ setInfo }) {
         </div>
 
         <span className="col-span-4 text-red-500">* 紅色代表無課程時段</span>
-      </div>{" "}
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-4 gap-y-3 bg-white shadow-sm ring-1 ring-gray-200 rounded-xl p-4 mt-4">
         {filterItem.map((item, index) => (
           <div
@@ -139,7 +139,7 @@ export default function Example({ setInfo }) {
                   <span className="mr-1 text-sm text-gray-500 flex">
                     <div>{item.school_year}學年</div>
                     <div>{semester[item.semester - 1]}</div>
-                  </span>{" "}
+                  </span>
                   {item.course.course_name}
                   {item.course_name_extend}
                 </div>

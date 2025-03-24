@@ -434,7 +434,6 @@ export default function Home() {
                   </div>
                   <div className="w-1/4 text-red-500 text-2xl text-end">{data?.discount}</div>
                   <div className="w-1/4 text-end">
-                    {" "}
                     <button
                       onClick={() => {
                         setChecked({

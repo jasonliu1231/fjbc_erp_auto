@@ -422,7 +422,6 @@ export default function Home() {
               <label className="font-medium text-gray-900 col-span-1">主題內容</label>
               <div className="text-sm leading-6 col-span-10">
                 <div className="">
-                  {" "}
                   <Editor
                     textareaValue={textareaValue}
                     setTextareaValue={setTextareaValue}
@@ -435,7 +434,7 @@ export default function Home() {
               {customize.map((item, index) => {
                 return (
                   <div className="flex items-center justify-center col-span-3">
-                    {" "}
+                    
                     <div className="text-sm leading-6">
                       <input
                         type="text"
