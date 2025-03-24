@@ -599,7 +599,6 @@ export default function Home() {
                 <div className="col-span-1 row-span-3">
                   <label className="block text-sm font-medium leading-6 text-gray-900">日期</label>
                   <div className="flex justify-center">
-                    {" "}
                     <Calendar
                       value={select.course_date}
                       onChange={(value) => {

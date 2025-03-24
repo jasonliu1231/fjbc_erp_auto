@@ -215,7 +215,6 @@ export default function Home() {
             <div className="grid grid-cols-5 gap-4">
               <div className="col-span-1">
                 <div className="grid grid-cols-2 gap-2">
-                  {" "}
                   <div className="col-span-1">
                     <label
                       htmlFor="first_name"

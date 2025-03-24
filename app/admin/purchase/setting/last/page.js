@@ -825,12 +825,10 @@ export default function Home() {
                 <div className={`absolute linePoint bottom-0 w-5 h-5 rounded-full border-2 bg-red-300 border-pink-400`}></div>
               </div>
               <div className={`w-40 border-b-2 relative color-step`}>
-                {" "}
                 <div className="absolute lineStr font-semibold">待結案</div>
                 <div className={`absolute linePoint bottom-0 w-5 h-5 rounded-full border-2 bg-red-300 border-red-400`}></div>
               </div>
               <div className={`w-40 relative`}>
-                {" "}
                 <div className="absolute lineStr text-sm">已結案</div>
                 <div className={`absolute linePoint bottom-0 w-5 h-5 rounded-full border-2 bg-gray-300 border-gray-400`}></div>
               </div>

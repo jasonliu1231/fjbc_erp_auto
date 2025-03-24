@@ -259,7 +259,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -295,7 +294,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -331,7 +329,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -367,7 +364,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -403,7 +399,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -439,7 +434,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>
@@ -475,7 +469,6 @@ export default function Example({ items, setItems, setInfo }) {
                                   <span className="mr-1 text-sm text-gray-500">{item.tutoring_course.school_year}學年</span>
                                   <div className="text-md flex items-center justify-center w-full">
                                     <span>
-                                      {" "}
                                       {item.tutoring_course.course.course_name}
                                       {item.tutoring_course.course_name_extend}
                                     </span>

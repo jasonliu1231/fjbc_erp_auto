@@ -197,7 +197,6 @@ export default function Home() {
               </div>
               {query && (
                 <>
-                  {" "}
                   <div className="text-lg text-blue-400">建立使用者</div>
                   <span className="isolate inline-flex rounded-md shadow-sm mb-1">
                     <button

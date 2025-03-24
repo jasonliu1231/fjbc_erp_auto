@@ -336,7 +336,6 @@ export default function Home() {
                     <div>
                       <label className="block text-sm font-medium leading-6 text-gray-900">時間範圍</label>
                       <div className="flex justify-center">
-                        {" "}
                         <Calendar
                           value={[search.begin, search.end]}
                           onChange={(value) => {
@@ -354,7 +353,6 @@ export default function Home() {
                       </div>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">單位選取</label>
                       {tutoring.map((item, index) => (
                         <button
@@ -373,7 +371,6 @@ export default function Home() {
                       ))}
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">狀態</label>
                       <button
                         type="button"
@@ -401,7 +398,6 @@ export default function Home() {
                       </button>
                     </div>
                     <div>
-                      {" "}
                       <label className="block text-sm font-medium leading-6 text-gray-900">重置</label>
                       <button
                         type="button"
@@ -606,7 +602,6 @@ export default function Home() {
         <div className="mx-auto px-2 py-2 sm:py-4 flex justify-between">
           <h1 className="sm:text-2xl font-semibold leading-6 text-gray-900">租借紀錄</h1>
           <div>
-            {" "}
             <button
               onClick={() => {
                 setDialog(true);

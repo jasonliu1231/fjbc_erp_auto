@@ -733,12 +733,10 @@ export default function Home() {
                     <div className={`${type.current >= 3 ? "bg-red-400 border-pink-700" : "bg-gray-400 border-blue-700"} absolute linePoint bottom-0 w-5 h-5 rounded-full border-2`}></div>
                   </div>
                   <div className={`${type.current == 4 ? "text-red-400" : ""} ${type.current > 4 ? "border-red-400" : ""} w-40 border-b-2 relative`}>
-                    {" "}
                     <div className="absolute lineStr">待結案</div>
                     <div className={`${type.current >= 4 ? "bg-red-400 border-pink-700" : "bg-gray-400 border-blue-700"} absolute linePoint bottom-0 w-5 h-5 rounded-full border-2`}></div>
                   </div>
                   <div className={`${type.current == 5 ? "text-red-400" : ""} ${type.current > 5 ? "border-red-400" : ""} w-40 relative`}>
-                    {" "}
                     <div className="absolute lineStr">已結案</div>
                     <div className={`${type.current >= 5 ? "bg-red-400 border-pink-700" : "bg-gray-400 border-blue-700"} absolute linePoint bottom-0 w-5 h-5 rounded-full border-2`}></div>
                   </div>
@@ -991,7 +989,6 @@ export default function Home() {
                             </td>
                           )} */}
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {" "}
                             <input
                               className="pl-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                               value={item.unit || ""}
@@ -1003,7 +1000,6 @@ export default function Home() {
                             />
                           </td>
                           <td className="w-1/12 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {" "}
                             <input
                               className="pl-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                               value={item.specification || ""}
@@ -1015,7 +1011,6 @@ export default function Home() {
                             />
                           </td>
                           <td className="w-1/6 whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {" "}
                             <input
                               className="pl-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
                               value={item.remark || ""}

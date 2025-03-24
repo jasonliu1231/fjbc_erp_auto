@@ -235,7 +235,6 @@ export default function Home() {
               className="sm:mb-3"
               style={{ height: "40px" }}
             >
-              {" "}
               <input
                 onChange={(event) => setQuery(event.target.value)}
                 value={query}

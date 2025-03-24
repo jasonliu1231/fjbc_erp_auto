@@ -1192,7 +1192,7 @@ export default function Home() {
                 <div className="ml-4 p-1">
                   <div className="text-gray-700">到班試聽</div>
                 </div>
-              </div>{" "}
+              </div>
               <div className="flex items-center col-span-1">
                 <div>
                   <input
@@ -1635,7 +1635,6 @@ export default function Home() {
                       key={index}
                       className="mb-3"
                     >
-                      {" "}
                       <div className="flex justify-between">
                         <div className="text-gray-400">
                           {new Date(i.update_at).toLocaleString("zh-TW", { hour12: false })}-<span className="text-gray-700"> {i.nick_name}</span>

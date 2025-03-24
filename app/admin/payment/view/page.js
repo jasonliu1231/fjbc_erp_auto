@@ -294,7 +294,7 @@ export default function Example() {
                     修改
                   </div>
                   <div className="sm:text-xl w-1/2">
-                    繳費方式：{" "}
+                    繳費方式：
                     <span className="sm:text-lg sm:text-gray-500">{data?.payment_method == 1 ? "現金" : data?.payment_method == 2 ? "轉帳" : data?.payment_method == 3 ? "信用卡" : "其他"}</span>
                   </div>
                   <div className="sm:text-xl flex items-center">

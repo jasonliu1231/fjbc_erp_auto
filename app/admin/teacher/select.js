@@ -77,7 +77,7 @@ export function HistorySelect({ createData, settingData, setSettingData }) {
                 className="font-medium text-gray-900 cursor-pointer"
               >
                 {historyItem}
-              </label>{" "}
+              </label>
             </div>
           </div>
         </div>

@@ -224,7 +224,6 @@ export default function Home({ student_id, setInfo }) {
                         key={index}
                         className="mb-3"
                       >
-                        {" "}
                         <div className="flex justify-between">
                           <div className="text-gray-400">
                             {new Date(i.update_at).toLocaleString("zh-TW", { hour12: false })}-<span className="text-gray-700"> {i.nick_name}</span>

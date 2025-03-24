@@ -214,7 +214,7 @@ export default function Home() {
             </DialogPanel>
           </div>
         </div>
-      </Dialog>{" "}
+      </Dialog>
       <div className="container mx-auto p-2 sm:p-4">
         <div className="mx-auto px-2 py-2 flex justify-between">
           <h1 className="font-semibold leading-6 text-gray-900">帳號列表</h1>

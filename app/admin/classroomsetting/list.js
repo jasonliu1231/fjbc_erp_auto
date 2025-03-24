@@ -352,7 +352,7 @@ export default function Example({ items, setItems, setInfo }) {
                           })}
                         </ul>
                       </div>
-                    </div>{" "}
+                    </div>
                   </div>
                 </div>
               </div>

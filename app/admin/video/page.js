@@ -251,7 +251,7 @@ export default function Home() {
                             href={i.output_url}
                             target="_blank"
                           >
-                            {start_time.toLocaleTimeString("zh-TW", { hour12: false, hour: "2-digit", minute: "2-digit" })} ~{" "}
+                            {start_time.toLocaleTimeString("zh-TW", { hour12: false, hour: "2-digit", minute: "2-digit" })} ~
                             {end_time.toLocaleTimeString("zh-TW", { hour12: false, hour: "2-digit", minute: "2-digit" })}
                           </a>
                         </li>

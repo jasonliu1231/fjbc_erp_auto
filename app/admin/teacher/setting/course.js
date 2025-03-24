@@ -400,7 +400,6 @@ export default function Home({ teacher_id, setInfo }) {
                                 : "#444444"
                           }}
                         >
-                          {" "}
                           {i.tutoring_course_status_id == 1
                             ? "正常"
                             : i.tutoring_course_status_id == 2
