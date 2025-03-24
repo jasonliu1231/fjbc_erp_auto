@@ -745,9 +745,9 @@ export default function Home() {
                   key={index}
                   className="m-1 px-4 py-2 bg-white rounded-md flex justify-between"
                 >
-                  <span>{search.date}</span>
+                  {/* <span>{search.date}</span> */}
                   <span>{i.content}</span>
-                  <span>{i.count}</span>
+                  <span className="text-pink-500">{i.count}</span>
                 </span>
               ))}
             </div>
@@ -877,7 +877,7 @@ export default function Home() {
                   </td>
                 </tr>
               ))}
-              <tr className="bg-yellow-50">
+              <tr className="sticky bottom-0 bg-yellow-50">
                 <td className="px-2 py-1 text-sm text-gray-900"></td>
                 <td className="px-2 py-1 text-sm text-gray-900"></td>
                 <td className="text-right px-2 py-1">總計：</td>

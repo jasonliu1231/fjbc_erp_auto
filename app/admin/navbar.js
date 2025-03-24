@@ -343,7 +343,7 @@ export default function Example() {
       blank: false
     },
     {
-      name: "點數對換",
+      name: "點數兌換",
       description: "加扣點、禮物兌換",
       href: "/admin/point",
       icon: GiftIcon,
