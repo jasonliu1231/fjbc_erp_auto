@@ -752,13 +752,13 @@ export default function Example({ setInfo }) {
                       </div>
                       <div className={`text-lg`}>
                         {sorted.map((item) => (
-                          <div>
+                          <span className="mr-1">
                             <span className="mr-1">◎</span>
                             {item.leave_type != 1 && <span className="text-red-600">(假)</span>}
                             <span className="font-bold">{item.c_name}</span>
-                            {item.status == 2 && <span className="text-sm text-red-400">(助教)</span>}
+                            {item.status == 2 && <span className="text-sm text-gray-500">(助教)</span>}
                             {item.status == 4 && <span className="text-sm text-red-400">(代課)</span>}
-                          </div>
+                          </span>
                         ))}
                       </div>
                       <div className={`${item.classroom_name ? "" : "text-red-300"} text-md text-gray-600`}>{item.classroom_name || "無教室"}</div>
