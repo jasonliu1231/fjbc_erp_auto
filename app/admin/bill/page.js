@@ -1120,7 +1120,7 @@ export default function Home() {
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
-              className="relative transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-3xl sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+              className="relative transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-4xl sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div>
                 <div>
@@ -1230,7 +1230,7 @@ export default function Home() {
                   新增明細
                 </button>
               </span>
-              <div className="mt-3 overflow-scroll">
+              <div className="mt-3">
                 <table
                   id="myTable"
                   className="min-w-full divide-y divide-gray-300"
@@ -1245,19 +1245,19 @@ export default function Home() {
                       </th>
                       <th
                         scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900 w-24"
                       >
                         數量
                       </th>
                       <th
                         scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900 w-24"
                       >
                         單位
                       </th>
                       <th
                         scope="col"
-                        className="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900"
+                        className="px-2 py-3.5 text-left text-sm font-semibold text-gray-900 w-24"
                       >
                         小計
                       </th>
@@ -1292,7 +1292,7 @@ export default function Home() {
                               }}
                               value={item.content}
                               type="text"
-                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 w-full"
                             />
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
@@ -1314,7 +1314,7 @@ export default function Home() {
                               }}
                               value={item.quantity}
                               type="number"
-                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 w-full"
                             />
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
@@ -1336,7 +1336,7 @@ export default function Home() {
                               }}
                               value={item.unit}
                               type="text"
-                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 w-full"
                             />
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
@@ -1358,7 +1358,7 @@ export default function Home() {
                               }}
                               value={item.money}
                               type="number"
-                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 w-full"
                             />
                           </td>
                           <td className="whitespace-nowrap px-2 py-2 text-sm text-gray-500">
@@ -1380,7 +1380,7 @@ export default function Home() {
                               }}
                               value={item.remark}
                               type="text"
-                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300"
+                              className="p-2 block rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 w-full"
                             />
                           </td>
                         </tr>
