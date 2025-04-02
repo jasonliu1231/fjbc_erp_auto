@@ -541,13 +541,23 @@ export default function Home() {
                               className="absolute inset-0"
                             />
                             <div className="flex justify-between">
-                              <p className="text-sm font-medium text-gray-900">{person.first_name}</p>
-                              <p className="truncate text-sm text-gray-500">{person.nick_name}</p>
+                              <div>
+                                <span className="text-sm font-medium text-gray-900">{person.first_name}</span>
+                                <span className="truncate text-sm text-gray-500 mx-1">{person.nick_name}</span>
+                              </div>
+
+                              <span className="truncate text-sm text-orange-700">{person.status_name}</span>
                             </div>
 
-                            <div className="flex justify-between">
-                              <p className="text-sm font-medium text-gray-400">{person.start_date}</p>
-                              <p className="truncate text-sm text-red-400">{person.end_date}</p>
+                            <div>
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium text-gray-400">{person.start_date}</span>
+                                <span className="truncate text-sm text-red-400">{person.end_date}</span>
+                              </div>
+                              <div className="flex justify-between">
+                                <span className="text-sm font-medium text-gray-400">{person.course_start_time?.substr(0, 5)}</span>
+                                <span className="truncate text-sm text-gray-400">{person.course_end_time?.substr(0, 5)}</span>
+                              </div>
                             </div>
                           </div>
                         </div>

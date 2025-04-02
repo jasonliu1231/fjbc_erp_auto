@@ -272,13 +272,13 @@ export default function Home({ course, schedule_id, setInfo, getData }) {
                       }}
                       className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
                     >
-                      {Array.from({ length: 6 }, (_, index) => {
+                      {Array.from({ length: 12 }, (_, index) => {
                         return (
                           <option
-                            key={index * 10}
-                            value={index * 10}
+                            key={index * 5}
+                            value={index * 5}
                           >
-                            {index * 10}分
+                            {index * 5}分
                           </option>
                         );
                       })}
@@ -321,13 +321,13 @@ export default function Home({ course, schedule_id, setInfo, getData }) {
                       }}
                       className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm/6"
                     >
-                      {Array.from({ length: 60 }, (_, index) => {
+                      {Array.from({ length: 12 }, (_, index) => {
                         return (
                           <option
-                            key={index}
-                            value={index}
+                            key={index * 5}
+                            value={index * 5}
                           >
-                            {index}分
+                            {index * 5}分
                           </option>
                         );
                       })}

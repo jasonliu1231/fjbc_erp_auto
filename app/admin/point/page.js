@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Alert from "../alert";
 import { Label, Dialog, DialogPanel, DialogBackdrop, Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
@@ -73,6 +73,7 @@ const items = [
 ];
 
 export default function Home() {
+  const isSend = useRef(false);
   const [info, setInfo] = useState({
     show: false,
     success: false,
@@ -106,8 +107,12 @@ export default function Home() {
         });
 
   filteredStudent = grade.length === 0 ? filteredStudent : filteredStudent.filter((person) => grade.some((id) => person.grade && person.grade == id));
-  console.log(filteredStudent);
+
   async function createPoint() {
+    if (isSend.current) {
+      return;
+    }
+
     if (student.student_id == 0) {
       setInfo({
         show: true,
@@ -143,10 +148,11 @@ export default function Home() {
         reason: createPointReason == "" ? null : createPointReason
       })
     };
-
+    isSend.current = true;
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/student/point`, config);
     const res = await response.json();
     if (response.ok) {
+      alert("新增完成");
       getStudentData();
       getReason();
     } else {
@@ -157,6 +163,7 @@ export default function Home() {
         msg: "錯誤" + msg
       });
     }
+    isSend.current = false;
   }
 
   async function createPrize(item) {
@@ -258,7 +265,6 @@ export default function Home() {
     if (response.ok) {
       setTotalPoint(res.total_point);
       setPointList(res.point_log);
-      setPrizeLogList(res.prize_log);
     } else {
       const msg = error(response.status, res);
       setInfo({
@@ -588,11 +594,25 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-3">
+        <div className="grid grid-cols-2">
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl m-2 col-span-2">
             <div className="px-4 py-6">
-              <div className="flex justify-between">
-                <div className="text-xl border-b-2 ">紀錄</div>
+              <div className="flex justify-between p-2">
+                <div className="flex">
+                  <div className="text-xl mr-4">紀錄</div>
+                  {student.student_id != 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        getPrize();
+                      }}
+                      className="bg-green-600 px-2 py-1 text-sm font-semibold text-white ring-2 ring-green-300 hover:bg-green-500"
+                    >
+                      兌換列表
+                    </button>
+                  )}
+                </div>
+
                 <div className={`${totalPoint > 0 ? "text-green-500" : "text-red-500"} text-xl `}>總計：{totalPoint}</div>
               </div>
 
@@ -662,7 +682,10 @@ export default function Home() {
                         </div>
                       </td>
                       <td className="whitespace-nowrap text-sm text-gray-500 w-1/4">
-                        <div>{item.reason}</div>
+                        <div>
+                          {item.reason}
+                          {item.prize_name && <span className="text-red-600">({item.prize_name})</span>}
+                        </div>
                       </td>
                       <td className="whitespace-nowrap text-sm text-red-500">
                         <div
@@ -684,7 +707,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl m-2">
+          {/* <div className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl m-2">
             <div className="px-4 py-6">
               <div className="flex justify-between">
                 <div className="text-xl">兌換紀錄</div>
@@ -765,7 +788,7 @@ export default function Home() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

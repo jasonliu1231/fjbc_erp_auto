@@ -496,8 +496,8 @@ export default function Home() {
                     <td className="whitespace-nowrap text-sm py-4 font-medium text-gray-900"></td>
                     <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right pr-6">總打卡時數：{total.attendance} 分鐘</td>
                     <td className="whitespace-nowrap text-sm font-medium text-gray-900 text-right">
-                      <span className="mx-5">總課程時數：{total.course} 分鐘</span>
-                      <span className="mx-5">總審核時數：{total.check} 分鐘</span>
+                      <span className="mx-5">總課程時數：{Number(total.course) / 60} 小時</span>
+                      <span className="mx-5">總審核時數：{Number(total.check) / 60} 小時</span>
                     </td>
                   </tr>
                 </tfoot>
