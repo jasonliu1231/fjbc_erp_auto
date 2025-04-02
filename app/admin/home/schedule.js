@@ -674,85 +674,97 @@ export default function Example({ setInfo }) {
             </div>
             <div className="overflow-auto h-70vh px-2">
               {filterClass.length > 0 ? (
-                filterClass.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`${
-                      now < timeStr(item.course_date, item.start_time)
-                        ? "bg-white"
-                        : now >= timeStr(item.course_date, item.start_time) && now <= timeStr(item.course_date, item.end_time)
-                        ? "bg-green-100"
-                        : "bg-gray-400"
-                    } p-4 my-1 rounded-md hover:opacity-75`}
-                    onClick={() => {
-                      schedule.current.id = item.id;
-                      schedule.current.course_date = item.course_date;
-                      schedule.current.course_name = item.course_name;
+                filterClass.map((item, index) => {
+                  const priorityStatus = [1, 4];
 
-                      getStudent(item.id);
-                      const s = item.start_time.split(":");
-                      const e = item.end_time.split(":");
-                      setState({
-                        ...state,
-                        s_h: Number(s[0]),
-                        s_m: Number(s[1]),
-                        e_h: Number(e[0]),
-                        e_m: Number(e[1]),
-                        leave_start_time: item.start_time.substr(0, 5),
-                        leave_end_time: item.end_time.substr(0, 5)
-                      });
-                    }}
-                  >
-                    <div className="flex item-start justify-between">
-                      <div className="text-md font-bold text-blue-600 hover:text-blue-300">
-                        <a href={`/admin/course?id=${item.id}`}>{item.course_name}</a>
+                  const sorted = item.teacher
+                    .filter((i) => i.leave_type == 1)
+                    .sort((a, b) => {
+                      const aPriority = priorityStatus.includes(a.status) ? 0 : 1;
+                      const bPriority = priorityStatus.includes(b.status) ? 0 : 1;
+                      return aPriority - bPriority;
+                    });
+
+                  return (
+                    <div
+                      key={index}
+                      className={`${
+                        now < timeStr(item.course_date, item.start_time)
+                          ? "bg-white"
+                          : now >= timeStr(item.course_date, item.start_time) && now <= timeStr(item.course_date, item.end_time)
+                          ? "bg-green-100"
+                          : "bg-gray-400"
+                      } p-4 my-1 rounded-md hover:opacity-75`}
+                      onClick={() => {
+                        schedule.current.id = item.id;
+                        schedule.current.course_date = item.course_date;
+                        schedule.current.course_name = item.course_name;
+
+                        getStudent(item.id);
+                        const s = item.start_time.split(":");
+                        const e = item.end_time.split(":");
+                        setState({
+                          ...state,
+                          s_h: Number(s[0]),
+                          s_m: Number(s[1]),
+                          e_h: Number(e[0]),
+                          e_m: Number(e[1]),
+                          leave_start_time: item.start_time.substr(0, 5),
+                          leave_end_time: item.end_time.substr(0, 5)
+                        });
+                      }}
+                    >
+                      <div className="flex item-start justify-between">
+                        <div className="text-md font-bold text-blue-600 hover:text-blue-300">
+                          <a href={`/admin/course?id=${item.id}`}>{item.course_name}</a>
+                        </div>
+                        <div
+                          style={{
+                            color:
+                              item.tutoring_course_status_id == 1
+                                ? "#444444"
+                                : item.tutoring_course_status_id == 2
+                                ? "#F03F09"
+                                : item.tutoring_course_status_id == 3
+                                ? "#60E1F0"
+                                : item.tutoring_course_status_id == 4
+                                ? "#F5A3A2"
+                                : item.tutoring_course_status_id == 5
+                                ? "#32F084"
+                                : item.tutoring_course_status_id == 6
+                                ? "#60F0CF"
+                                : "#444444"
+                          }}
+                          className="text-md text-gray-900 bg-white px-1 rounded-md font-bold"
+                        >
+                          {item.tutoring_course_status_id == 1
+                            ? "正常上課"
+                            : item.tutoring_course_status_id == 2
+                            ? "停課(不補課)"
+                            : item.tutoring_course_status_id == 3
+                            ? "調課"
+                            : item.tutoring_course_status_id == 4
+                            ? "停課(需補課)"
+                            : item.tutoring_course_status_id == 5
+                            ? "補課"
+                            : item.tutoring_course_status_id == 6
+                            ? "加課"
+                            : ""}
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          color:
-                            item.tutoring_course_status_id == 1
-                              ? "#444444"
-                              : item.tutoring_course_status_id == 2
-                              ? "#F03F09"
-                              : item.tutoring_course_status_id == 3
-                              ? "#60E1F0"
-                              : item.tutoring_course_status_id == 4
-                              ? "#F5A3A2"
-                              : item.tutoring_course_status_id == 5
-                              ? "#32F084"
-                              : item.tutoring_course_status_id == 6
-                              ? "#60F0CF"
-                              : "#444444"
-                        }}
-                        className="text-md text-gray-900 bg-white px-1 rounded-md font-bold"
-                      >
-                        {item.tutoring_course_status_id == 1
-                          ? "正常上課"
-                          : item.tutoring_course_status_id == 2
-                          ? "停課(不補課)"
-                          : item.tutoring_course_status_id == 3
-                          ? "調課"
-                          : item.tutoring_course_status_id == 4
-                          ? "停課(需補課)"
-                          : item.tutoring_course_status_id == 5
-                          ? "補課"
-                          : item.tutoring_course_status_id == 6
-                          ? "加課"
-                          : ""}
+                      <div className={`text-lg text-gray-800`}>{sorted.map((item) => item.c_name).join(",")}</div>
+                      <div className={`${item.classroom_name ? "" : "text-red-300"} text-md text-gray-600`}>{item.classroom_name || "無教室"}</div>
+                      <div className="text-sm text-gray-900 flex justify-between">
+                        {item?.start_time?.substr(0, 5)}~{item?.end_time?.substr(0, 5)}
+                        <Contactbook
+                          schedule_id={item.id}
+                          setInfo={setInfo}
+                          tutoring_id={item.tutoring_id}
+                        />
                       </div>
                     </div>
-                    <div className={`text-lg text-gray-800`}>{item.teacher?.map((item) => item.c_name).join(",")}</div>
-                    <div className={`${item.classroom_name ? "" : "text-red-300"} text-md text-gray-600`}>{item.classroom_name || "無教室"}</div>
-                    <div className="text-sm text-gray-900 flex justify-between">
-                      {item?.start_time?.substr(0, 5)}~{item?.end_time?.substr(0, 5)}
-                      <Contactbook
-                        schedule_id={item.id}
-                        setInfo={setInfo}
-                        tutoring_id={item.tutoring_id}
-                      />
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className="text-red-400 text-center">今日無課程</div>
               )}

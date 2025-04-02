@@ -1216,7 +1216,7 @@ export default function Home() {
                 </div>
               </div>
               <span className="isolate flex rounded-md shadow-sm mt-3 justify-end items-end">
-                <div className="text-red-400 mx-2">明細商品名沒填寫視同取消</div>
+                <div className="text-red-400 mx-2"></div>
                 <button
                   onClick={() => {
                     setUpdateData({
