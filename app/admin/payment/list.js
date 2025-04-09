@@ -11,6 +11,7 @@ ninetyDaysAgo.setDate(today.getDate() - 45);
 
 export default function Example({ setInfo }) {
   const [payState, setPayState] = useState(1);
+  const [tutoring, setTutoring] = useState(0);
   const [items, setItems] = useState([]);
   const [deposit, setDeposit] = useState([]);
   const [query, setQuery] = useState("");
@@ -41,6 +42,8 @@ export default function Example({ setInfo }) {
           const name = item.student.user.first_name;
           return name.toLowerCase().includes(query.toLowerCase());
         });
+
+  filteredItems = tutoring === 0 ? filteredItems : filteredItems.filter((item) => item.tutoring.id == tutoring);
 
   const filteredDeposit =
     query === ""
@@ -443,6 +446,45 @@ export default function Example({ setInfo }) {
             className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
           />
         </div>
+
+        <span className="isolate inline-flex ml-4">
+          <button
+            onClick={() => {
+              setTutoring(0);
+            }}
+            type="button"
+            className={`${tutoring == 0 ? "bg-red-100" : "bg-white"} relative inline-flex items-center rounded-l-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300`}
+          >
+            全部
+          </button>
+          <button
+            onClick={() => {
+              setTutoring(1);
+            }}
+            type="button"
+            className={`${tutoring == 1 ? "bg-red-100" : "bg-white"} relative inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300`}
+          >
+            多易
+          </button>
+          <button
+            onClick={() => {
+              setTutoring(2);
+            }}
+            type="button"
+            className={`${tutoring == 2 ? "bg-red-100" : "bg-white"} relative inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300`}
+          >
+            艾思
+          </button>
+          <button
+            onClick={() => {
+              setTutoring(3);
+            }}
+            type="button"
+            className={`${tutoring == 3 ? "bg-red-100" : "bg-white"} relative inline-flex items-center rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300`}
+          >
+            華爾敦
+          </button>
+        </span>
       </span>
 
       {payState == 4 ? (
