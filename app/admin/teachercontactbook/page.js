@@ -173,9 +173,9 @@ export default function Home() {
                         message: `${course.course_date} ${course.course_name} 日誌未填寫，請盡快補上！`
                       });
                     }}
-                    className="hover:text-blue-600"
+                    className="text-blue-600 hover:text-red-600"
                   >
-                    推播
+                    發送提醒
                   </button>
                 </td>
               </tr>
