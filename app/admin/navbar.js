@@ -336,8 +336,8 @@ export default function Example() {
       blank: false
     },
     {
-      name: "補課",
-      description: "補課資料",
+      name: "輔導",
+      description: "輔導預約",
       href: "/admin/makeup",
       icon: HandThumbDownIcon,
       blank: false

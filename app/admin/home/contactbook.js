@@ -36,6 +36,30 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
     }
   }
 
+  async function sendAlert(title, message) {
+    const config = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        clientid: `${localStorage.getItem("client_id")}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        schedule_id: schedule_id,
+        title: title,
+        message: message
+      })
+    };
+
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/tutoring/course_schedule/contact_book/notification`, config);
+    // 不需要看結果，只要說成功或失敗就好
+    if (response.ok) {
+      alert("發送完成");
+    } else {
+      alert("發送失敗");
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex justify-center items-center mt-40">
@@ -61,7 +85,7 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <DialogPanel
               transition
-              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:my-8 sm:w-full sm:max-w-full sm:p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+              className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in w-full p-6 data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
             >
               <div>
                 <div className="mt-3 text-center sm:mt-5">
@@ -81,6 +105,8 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                       <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.homework}</pre>
                       <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">考試提醒</div>
                       <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.next_quiz}</pre>
+                      <div className="col-span-1 py-1 ring-1 ring-gray-400 bg-blue-100">課堂備註</div>
+                      <pre className="col-span-1 py-1 ring-1 ring-gray-400 text-left overflow-auto p-3">{content.schedule_remark}</pre>
                     </div>
                   </div>
                   <div className="mt-4">
@@ -146,7 +172,7 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                           >
                             <td className={`px-2 py-1`}>
                               <div>{person.first_name}</div>
-                              <div>({person.nick_name})</div>
+                              {person.nick_name && <div>({person.nick_name})</div>}
                             </td>
                             <td className={`px-2 py-1`}>
                               <div
@@ -184,29 +210,32 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
                             </td>
                             <td className={`px-2 py-1 whitespace-nowrap`}>
                               {person.exam?.map((item, index) => {
-                                if (item) {
-                                  const obj = item.split("$$");
-                                  return (
-                                    <div
-                                      key={index}
-                                      className="border-b-2 py-2"
-                                    >
-                                      <div>考試成績：{obj[0]}</div>
-                                      {obj[1] && (
-                                        <div className="text-pink-500">
-                                          <div>輔導時間：</div>
-                                          <div>
-                                            <span>{new Date(obj[1]).toLocaleDateString()}</span>
-                                            <span> {new Date(obj[1]).toLocaleTimeString("zh-TW", { hour12: false, hour: "2-digit", minute: "2-digit" }).substr(0, 5)}</span>
-                                          </div>
-                                        </div>
-                                      )}
+                                return (
+                                  <div
+                                    key={index}
+                                    className="border-b-2 py-2"
+                                  >
+                                    <div className="flex">
+                                      {item.score && <div>考試成績：{item.score}</div>}
+                                      {item.is_makeup && <div className="text-red-500 ml-2">需輔導</div>}
                                     </div>
-                                  );
-                                }
+
+                                    {/* {item.makeup_date && (
+                                      <div className="text-pink-500">
+                                        <div>輔導時間：</div>
+                                        <div>
+                                          <span>{new Date(item.makeup_date).toLocaleDateString()}</span>
+                                          <span> {new Date(item.makeup_date).toLocaleTimeString("zh-TW", { hour12: false, hour: "2-digit", minute: "2-digit" }).substr(0, 5)}</span>
+                                        </div>
+                                      </div>
+                                    )} */}
+                                  </div>
+                                );
                               })}
                             </td>
-                            <td className={`${person.parent_sign ? "text-green-500" : "text-red-500"} px-2 py-1 whitespace-nowrap`}>{person.parent_sign ? "已簽名" : "未簽名"}</td>
+                            <td className={`${person.teacher_sign ? (person.parent_sign ? "text-green-500" : "text-red-500") : "text-orange-500"} px-2 py-1 whitespace-nowrap`}>
+                              {person.teacher_sign ? (person.parent_sign ? "已簽名" : "未簽名") : "老師沒簽！"}
+                            </td>
                           </tr>
                         ))}
                       </tbody>
@@ -216,10 +245,25 @@ export default function Example({ schedule_id, tutoring_id, setInfo }) {
               </div>
               <div className="mt-5 flex justify-center">
                 <button
+                  onClick={() => {
+                    const check = confirm(`確定要發通知給 ${content.course_name} 的老師嗎？`);
+                    if (check) {
+                      const title = `聯絡簿未完成提醒！\nContact book unfinished reminder!`;
+                      const message = `${content.course_date}⭐︎${content.course_name}聯絡簿未完成！\n${content.course_date}⭐︎${content.course_name} The contact book is not completed!`;
+                      sendAlert(title, message);
+                    }
+                  }}
+                  type="button"
+                  data-autofocus
+                  className="m-1 bg-white px-3 py-2 text-sm font-semibold text-red-500 shadow-sm ring-1 ring-inset ring-red-400"
+                >
+                  聯絡簿通知
+                </button>
+                <button
                   type="button"
                   data-autofocus
                   onClick={() => setOpen(false)}
-                  className="bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400"
+                  className="m-1 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400"
                 >
                   關閉
                 </button>

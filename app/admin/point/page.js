@@ -89,9 +89,9 @@ export default function Home() {
   const [point, setPoint] = useState(0);
   const [totalPoint, setTotalPoint] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openStudent, setOpenStudent] = useState(false);
   const [pointList, setPointList] = useState([]);
   const [prizeList, setPrizeList] = useState([]);
-  const [prizeLogList, setPrizeLogList] = useState([]);
   const [selectPrizeList, setSelectPrizeList] = useState([]);
   const [reasonList, setReasonList] = useState([]);
   const [createPointReason, setCreatePointReason] = useState("");
@@ -234,6 +234,7 @@ export default function Home() {
           return {
             student_id: person.id,
             name: person.user.first_name,
+            photo: person.user.photo,
             grade: person.grade?.id
           };
         })
@@ -446,6 +447,81 @@ export default function Home() {
         </div>
       </Dialog>
 
+      <Dialog
+        open={openStudent}
+        onClose={() => {}}
+        className="relative z-10"
+      >
+        <DialogBackdrop
+          transition
+          className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in"
+        />
+
+        <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+          <div className="flex min-h-full justify-center p-4 text-center sm:p-0">
+            <DialogPanel
+              transition
+              className="relative transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all data-[closed]:translate-y-4 data-[closed]:opacity-0 data-[enter]:duration-300 data-[leave]:duration-200 data-[enter]:ease-out data-[leave]:ease-in sm:w-full sm:max-w-full data-[closed]:sm:translate-y-0 data-[closed]:sm:scale-95"
+            >
+              <input
+                value={query}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+                className="border-2 w-full p-3"
+                placeholder="請輸入中文姓名"
+              />
+              <div className="grid grid-cols-8">
+                {filteredStudent.map((person) => (
+                  <div
+                    onClick={() => {
+                      setStudent(person);
+                      setOpenStudent(false);
+                    }}
+                    key={person.student_id}
+                    className="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-xl px-4 py-2 m-2 flex items-center hover:bg-blue-50"
+                  >
+                    {person.photo ? (
+                      <img
+                        alt=""
+                        src={person.photo}
+                        className="h-12 w-12"
+                      />
+                    ) : (
+                      <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                        <svg
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          className="h-full w-full text-gray-300"
+                        >
+                          <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                      </span>
+                    )}
+
+                    <div className="flex-auto ml-3">
+                      <h3 className="text-lg font-semibold leading-8 tracking-tight text-gray-900">{person.name}</h3>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-5 flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpenStudent(false);
+                  }}
+                  className="mx-2 px-3 py-2 text-sm font-semibold text-red-300 ring-2 rounded-md ring-pink-300 hover:bg-red-500"
+                >
+                  取消
+                </button>
+              </div>
+            </DialogPanel>
+          </div>
+        </div>
+      </Dialog>
+
       <div className="container mx-auto">
         <div className="flex items-end my-2">
           <h1 className="text-lg font-semibold text-gray-900">學生點數</h1>
@@ -467,8 +543,25 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-4 gap-2">
-            <div className="col-span-1">
-              <Combobox
+            <div className="col-span-1 flex justify-around items-center">
+              <button
+                onClick={() => {
+                  setOpenStudent(true);
+                }}
+                className="bg-white shadow-sm ring-2 ring-gray-600 rounded-md px-4 py-2"
+              >
+                選擇學生
+              </button>
+              <div className="flex items-center">
+                <img
+                  alt=""
+                  src={student.photo}
+                  className="h-10 w-10"
+                />
+                <label className="m-4 text-lg font-bold text-blue-600">{student.name}</label>
+              </div>
+
+              {/* <Combobox
                 as="div"
                 value={student}
                 onChange={(person) => {
@@ -483,6 +576,7 @@ export default function Home() {
                   }
                 }}
               >
+              
                 <Label className="block text-sm/6 font-medium text-gray-900">學生</Label>
                 <div className="relative mt-2">
                   <ComboboxInput
@@ -519,7 +613,7 @@ export default function Home() {
                     </ComboboxOptions>
                   )}
                 </div>
-              </Combobox>
+              </Combobox> */}
             </div>
 
             <div className="mt-2 col-span-1">

@@ -677,13 +677,11 @@ export default function Example({ setInfo }) {
                 filterClass.map((item, index) => {
                   const priorityStatus = [1, 4];
 
-                  const sorted = item.teacher
-                    .filter((i) => i.leave_type == 1)
-                    .sort((a, b) => {
-                      const aPriority = priorityStatus.includes(a.status) ? 0 : 1;
-                      const bPriority = priorityStatus.includes(b.status) ? 0 : 1;
-                      return aPriority - bPriority;
-                    });
+                  const sorted = item.teacher.sort((a, b) => {
+                    const aPriority = priorityStatus.includes(a.status) ? 0 : 1;
+                    const bPriority = priorityStatus.includes(b.status) ? 0 : 1;
+                    return aPriority - bPriority;
+                  });
 
                   return (
                     <div
@@ -752,7 +750,17 @@ export default function Example({ setInfo }) {
                             : ""}
                         </div>
                       </div>
-                      <div className={`text-lg text-gray-800`}>{sorted.map((item) => item.c_name).join(",")}</div>
+                      <div className={`text-lg`}>
+                        {sorted.map((item) => (
+                          <span className="mr-1">
+                            <span className="mr-1">◎</span>
+                            {item.leave_type != 1 && <span className="text-red-600">(假)</span>}
+                            <span className="font-bold">{item.c_name}</span>
+                            {item.status == 2 && <span className="text-sm text-gray-500">(助教)</span>}
+                            {item.status == 4 && <span className="text-sm text-red-400">(代課)</span>}
+                          </span>
+                        ))}
+                      </div>
                       <div className={`${item.classroom_name ? "" : "text-red-300"} text-md text-gray-600`}>{item.classroom_name || "無教室"}</div>
                       <div className="text-sm text-gray-900 flex justify-between">
                         {item?.start_time?.substr(0, 5)}~{item?.end_time?.substr(0, 5)}
