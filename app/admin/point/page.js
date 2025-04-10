@@ -86,7 +86,7 @@ export default function Home() {
     name: ""
   });
   const [query, setQuery] = useState("");
-  const [point, setPoint] = useState(0);
+  const [point, setPoint] = useState("");
   const [totalPoint, setTotalPoint] = useState(0);
   const [open, setOpen] = useState(false);
   const [openStudent, setOpenStudent] = useState(false);
@@ -180,6 +180,7 @@ export default function Home() {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL_8102}/fjbc_tutoring_api/student/point`, config);
     const res = await response.json();
     if (response.ok) {
+      setSelectPrizeList([]);
       getStudentData();
       setOpen(false);
     } else {
@@ -436,6 +437,7 @@ export default function Home() {
                     selectPrizeList.forEach((item) => {
                       createPrize(item);
                     });
+                    alert("兌換完成");
                   }}
                   className="mx-2 bg-green-600 px-3 py-2 text-sm font-semibold text-white ring-2 ring-green-300 hover:bg-green-500"
                 >
@@ -622,6 +624,9 @@ export default function Home() {
                 <input
                   value={point}
                   onChange={(e) => {
+                    if (isNaN(Number(e.target.value))) {
+                      return;
+                    }
                     setPoint(e.target.value);
                   }}
                   className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
@@ -654,21 +659,33 @@ export default function Home() {
             <div className="mt-2 flex justify-between items-end col-span-1">
               <span className="isolate inline-flex rounded-md shadow-sm">
                 <button
-                  onClick={() => setPoint(point - 1)}
+                  onClick={() => {
+                    if (point == "") {
+                      setPoint(0 - 1);
+                    } else {
+                      setPoint(Number(point) - 1);
+                    }
+                  }}
                   type="button"
                   className="relative inline-flex items-center rounded-l-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
                 >
                   - 1
                 </button>
                 <button
-                  onClick={() => setPoint(0)}
+                  onClick={() => setPoint("")}
                   type="button"
                   className="relative -ml-px inline-flex items-center bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
                 >
                   歸零
                 </button>
                 <button
-                  onClick={() => setPoint(point + 1)}
+                  onClick={() => {
+                    if (point == "") {
+                      setPoint(0 + 1);
+                    } else {
+                      setPoint(Number(point) + 1);
+                    }
+                  }}
                   type="button"
                   className="relative -ml-px inline-flex items-center rounded-r-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10"
                 >
