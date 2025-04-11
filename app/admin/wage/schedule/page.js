@@ -38,6 +38,7 @@ export default function Home() {
   const [view, setView] = useState(def_view);
   const [update, setUpdate] = useState(def_update);
   const [query, setQuery] = useState("");
+  const [tutoring, setTutoring] = useState(0);
 
   function getTableData() {
     const table = document.getElementById("myTable");
@@ -159,10 +160,12 @@ export default function Home() {
     }
   }
 
-  const filterItems =
+  const filterItems = tutoring == 0 ? list : list.filter((person) => person.tid == tutoring);
+
+  filterItems =
     query == ""
-      ? list
-      : list.filter((person) => {
+      ? filterItems
+      : filterItems.filter((person) => {
           const name = person.c_name.toLowerCase() || "";
           return name.includes(query.toLowerCase());
         });
@@ -241,6 +244,45 @@ export default function Home() {
             <div className="flex items-end">
               <h1 className="text-xl font-semibold text-gray-900">薪資明細總表</h1>
               <span className="ml-12">
+                <div className="flex">
+                  <button
+                    onClick={() => {
+                      setTutoring(0);
+                    }}
+                    type="button"
+                    className={`${tutoring == 0 ? "bg-pink-100" : "bg-white"} mx-1 rounded px-2 py-1 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300`}
+                  >
+                    全部
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTutoring(1);
+                    }}
+                    type="button"
+                    className={`${tutoring == 1 ? "bg-pink-100" : "bg-white"} mx-1 rounded px-2 py-1 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300`}
+                  >
+                    多易
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTutoring(2);
+                    }}
+                    type="button"
+                    className={`${tutoring == 2 ? "bg-pink-100" : "bg-white"} mx-1 rounded px-2 py-1 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300`}
+                  >
+                    艾思
+                  </button>
+                  <button
+                    onClick={() => {
+                      setTutoring(3);
+                    }}
+                    type="button"
+                    className={`${tutoring == 3 ? "bg-pink-100" : "bg-white"} mx-1 rounded px-2 py-1 text-xs font-semibold text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300`}
+                  >
+                    華而敦
+                  </button>
+                </div>
+
                 <input
                   value={query}
                   onChange={(e) => {
