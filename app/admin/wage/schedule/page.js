@@ -160,7 +160,7 @@ export default function Home() {
     }
   }
 
-  const filterItems = tutoring == 0 ? list : list.filter((person) => person.tid == tutoring);
+  let filterItems = tutoring == 0 ? list : list.filter((person) => person.tid == tutoring);
 
   filterItems =
     query == ""
