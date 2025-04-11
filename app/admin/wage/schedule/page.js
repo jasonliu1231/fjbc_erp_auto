@@ -244,7 +244,7 @@ export default function Home() {
             <div className="flex items-end">
               <h1 className="text-xl font-semibold text-gray-900">薪資明細總表</h1>
               <span className="ml-12">
-                <div className="flex">
+                <span className="flex">
                   <button
                     onClick={() => {
                       setTutoring(0);
@@ -281,7 +281,7 @@ export default function Home() {
                   >
                     華而敦
                   </button>
-                </div>
+                </span>
 
                 <input
                   value={query}
